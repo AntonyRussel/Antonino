@@ -98,23 +98,99 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 </style>
 <link rel="stylesheet" id="hello-elementor-css" href="/wp-content/themes/hello-elementor/assets/css/reset.css?ver=3.4.5" media="all">
 <link rel="stylesheet" id="hello-elementor-theme-style-css" href="/wp-content/themes/hello-elementor/assets/css/theme.css?ver=3.4.5" media="all">
-<link rel="stylesheet" id="elementor-frontend-css" href="/wp-content/plugins/elementor/assets/css/frontend.min.css?ver=3.34.0" media="all">
+<link rel="stylesheet" id="elementor-frontend-css" href="/wp-content/plugins/elementor/assets/css/frontend.min.css?ver=3.34.1" media="all">
 <link rel="stylesheet" id="eael-general-css" href="/wp-content/plugins/essential-addons-for-elementor-lite/assets/front-end/css/view/general.min.css?ver=6.5.5" media="all">
 <script src="/wp-includes/js/jquery/jquery.min.js?ver=3.7.1" id="jquery-core-js"></script>
 <script src="/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1" id="jquery-migrate-js"></script>
 <link rel="https://api.w.org/" href="/wp-json/"><link rel="EditURI" type="application/rsd+xml" title="RSD" href="/xmlrpc.php?rsd">
 <meta name="generator" content="WordPress 6.9">
-<style type="text/css" id="simple-css-output">.eael-filter-gallery-control ul li.control { position: relative; display: inline-block; padding: 10px 15px; cursor: pointer; transition: color 0.3s ease;}/* linea sotto il testo, nascosta (scaleX(0)) */.eael-filter-gallery-control ul li.control::after { content: ""; position: absolute; left: 50%; bottom: 0; width: 100%; height: 2px; background-color: #fff; transform: translateX(-50%) scaleX(0); transform-origin: center; transition: transform 0.3s ease;}/* al hover si espande dal centro */.eael-filter-gallery-control ul li.control:hover::after { transform: translateX(-50%) scaleX(1);}/* se il testo è direttamente nel */.eael-filter-gallery-control ul li.control { color: #ccc;}.eael-filter-gallery-control ul li.control:hover { color: #fff !important;}.mfp-bottom-bar { display: none !important;}/* Overlay visibile in hover */.eael-gallery-grid-item:hover .gallery-item-caption-wrap.caption-style-hoverer { opacity: 1; visibility: visible; transform: scale(1.05); /* Mantiene la scala dopo l’animazione */ animation: fade-in-by-antonino 0.5s cubic-bezier(.39,.575,.565,1.000) forwards;}/* Stato iniziale dell’overlay */.gallery-item-caption-wrap.caption-style-hoverer { opacity: 0; visibility: hidden; transform: scale(1); /* Stato iniziale */ transition: opacity 0.3s ease;}/* Animazione personalizzata */@keyframes fade-in-by-antonino { 0% { opacity: 0; transform: scale(0.98); } 100% { opacity: 1; transform: scale(1.05); }}/* Fix font */.gallery-item-caption-wrap,.gallery-item-caption-wrap * { font-family: "inconsolata" !important;}/* DESKTOP – 4 colonne */@media (min-width: 1025px) { .eael-filterable-gallery-item-wrap { width: 25% !important; padding: 0 !important; margin: 0 !important; box-sizing: border-box !important; }}/* TABLET – 3 colonne */@media (min-width: 768px) and (max-width: 1024px) { .eael-filterable-gallery-item-wrap { width: 33.333% !important; padding: 0 !important; margin: 0 !important; box-sizing: border-box !important; }}/* MOBILE – 2 colonne */@media (max-width: 767px) { .eael-filterable-gallery-item-wrap { width: 50% !important; padding: 0 !important; margin: 0 !important; box-sizing: border-box !important; }}/* LOTTIE *//* Mantieni form + lottie affiancati anche su tablet */@media (max-width: 1024px) { .elementor-element-2e77429.e-con { flex-direction: row !important; align-items: center !important; justify-content: space-between !important; flex-wrap: nowrap !important; }}</style><link rel="icon" href="/wp-content/uploads/2025/10/motionterra.gif" sizes="32x32">
+<style type="text/css" id="simple-css-output">/* DESKTOP – 4 colonne */@media (min-width: 1025px) { .eael-filterable-gallery-item-wrap { width: 25% !important; padding: 0px !important; /* SPAZIO PROPORZIONATO */ box-sizing: border-box !important; }}/* TABLET – 3 colonne */@media (min-width: 768px) and (max-width: 1024px) { .eael-filterable-gallery-item-wrap { width: 33.333% !important; padding: 0px !important; /* STESSO SPAZIO */ box-sizing: border-box !important; }}/* MOBILE – 2 colonne */@media (max-width: 767px) { .eael-filterable-gallery-item-wrap { width: 50% !important; padding: 0px !important; /* leggermente meno per mobile */ box-sizing: border-box !important; }}.mfp-bottom-bar { display: none !important;}/* ANIMAZIONE */@keyframes letterBounce { 0% { transform: translateY(0); } 20% { transform: translateY(-6px); animation-timing-function: cubic-bezier(0.33, 0, 0.2, 1); } 35% { transform: translateY(3px); animation-timing-function: cubic-bezier(0.33, 0, 0.2, 1); } 50% { transform: translateY(0); } 100% { transform: translateY(0); /* qui avviene la pausa */ }}/* ANIMAZIONE 2 */.flicker-word { display: inline-block; transition: color 0.15s linear;}/* Flash di colore sul testo */.flicker-word.flicker-active { color: #4fc3ff; /* blu chiaro */}</style><link rel="icon" href="/wp-content/uploads/2025/10/motionterra.gif" sizes="32x32">
 <link rel="icon" href="/wp-content/uploads/2025/10/motionterra.gif" sizes="192x192">
 <link rel="apple-touch-icon" href="/wp-content/uploads/2025/10/motionterra.gif">
 <meta name="msapplication-TileImage" content="/wp-content/uploads/2025/10/motionterra.gif">
 		<style id="wp-custom-css">
-			/* Font globale del form */
-.contact-form {
-  font-family: Inconsolata, monospace;
-  padding: 30px 40px;
-  max-width: 500px;
+			.eael-filter-gallery-control ul li.control {
+  position: relative;
+  display: inline-block;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+/* linea sotto il testo, nascosta (scaleX(0)) */
+.eael-filter-gallery-control ul li.control::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
   width: 100%;
+  height: 2px;
+  background-color: #fff;
+  transform: translateX(-50%) scaleX(0);
+  transform-origin: center;
+  transition: transform 0.3s ease;
+}
+
+/* al hover si espande dal centro */
+.eael-filter-gallery-control ul li.control:hover::after {
+  transform: translateX(-50%) scaleX(1);
+}
+
+/* colore testo */
+.eael-filter-gallery-control ul li.control {
+  color: #ccc;
+}
+
+.eael-filter-gallery-control ul li.control:hover {
+  color: #fff !important;
+}
+
+/* Overlay visibile in hover */
+.eael-gallery-grid-item:hover .gallery-item-caption-wrap.caption-style-hoverer {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1.05);
+  animation: fade-in-by-antonino 0.5s cubic-bezier(.39,.575,.565,1) forwards;
+}
+
+/* Stato iniziale dell’overlay */
+.gallery-item-caption-wrap.caption-style-hoverer {
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(1);
+  transition: opacity 0.3s ease;
+}
+
+/* Animazione personalizzata */
+@keyframes fade-in-by-antonino {
+  0% {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+/* Fix font */
+.gallery-item-caption-wrap,
+.gallery-item-caption-wrap * {
+  font-family: "Inconsolata", monospace !important;
+}
+
+/* Font globale del form */
+.contact-form,
+.contact-form * {
+  font-family: Inconsolata, monospace !important;
+  text-align: left !important;
+}
+
+/* Wrapper */
+.contact-form-wrapper {
+  display: block;
+  max-width: 500px;
+  margin-left: 0;
 }
 
 /* Input + Textarea (stile base + focus) */
@@ -153,39 +229,20 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 }
 
 /* Placeholder */
-.contact-form .form-control::placeholder,
-.contact-form .form-control:-ms-input-placeholder,
-.contact-form .form-control::-ms-input-placeholder {
+.contact-form .form-control::placeholder {
   color: #aeb4b9;
   font-weight: 500;
   opacity: 1;
 }
 
-/* Titoli */
-.contact-form .title {
-  text-align: center;
-  font-size: 24px;
-  font-weight: 500;
-}
-
-.contact-form .description {
-  text-align: center;
-  font-size: 14px;
-  color: #aeb4b9;
-}
-
 /* Submit button */
-.contact-form .submit-button-wrapper {
-  text-align: center;
-}
-
 .contact-form .submit-button-wrapper input {
-  font-family: Inconsolata, monospace;
+  width: 100%;
+  padding: 10px 16px;
   border: none;
   border-radius: 5px;
   background-color: #363636;
   color: white;
-  padding: 10px 60px;
   font-weight: 700;
   letter-spacing: 1px;
 }
@@ -193,19 +250,25 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 .contact-form .submit-button-wrapper input:hover {
   background-color: #ebebeb;
   color: #000000;
-  transform: scale(1.0);
 }
 
-.contact-form-wrapper {
-  display: block;          /* niente flex */
-  max-width: 500px;        /* stessa larghezza del form */
-  margin-left: -40px;          /* allineato a sinistra */
+.contact-form .submit-button-wrapper input {
+  width: auto;                 /* non troppo largo */
+  padding: 12px 32px;          /* più spazio interno */
+  border: none;
+  border-radius: 5px;         /* più morbido */
+  background-color: #363636;
+  color: white;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+  margin-top: 10px;            /* un po’ di respiro sopra */
 }
-
-.contact-form .submit-button-wrapper {
-  text-align: left; 
+.contact-form .submit-button-wrapper input:hover {
+  background-color: #4a4a4a;
+  transform: translateY(-1px);
 }
-
 
 		</style>
 		</head>
@@ -227,7 +290,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 {"prefetch":[{"source":"document","where":{"and":[{"href_matches":"/mywordpress/*"},{"not":{"href_matches":["/mywordpress/wp-*.php","/mywordpress/wp-admin/*","/mywordpress/wp-content/uploads/*","/mywordpress/wp-content/*","/mywordpress/wp-content/plugins/*","/mywordpress/wp-content/themes/hello-elementor/*","/mywordpress/*\\?(.+)"]}},{"not":{"selector_matches":"a[rel~=\"nofollow\"]"}},{"not":{"selector_matches":".no-prefetch, .no-prefetch a"}}]},"eagerness":"conservative"}]}
 </script>
 <script id="eael-general-js-extra">
-var localize = {"ajaxurl":"/wp-admin/admin-ajax.php","nonce":"cbad118af4","i18n":{"added":"Added ","compare":"Compare","loading":"Loading..."},"eael_translate_text":{"required_text":"is a required field","invalid_text":"Invalid","billing_text":"Billing","shipping_text":"Shipping","fg_mfp_counter_text":"of"},"page_permalink":"","cart_redirectition":"","cart_page_url":"","el_breakpoints":{"mobile":{"label":"Mobile Portrait","value":767,"default_value":767,"direction":"max","is_enabled":true},"mobile_extra":{"label":"Mobile Landscape","value":880,"default_value":880,"direction":"max","is_enabled":false},"tablet":{"label":"Tablet verticale","value":1024,"default_value":1024,"direction":"max","is_enabled":true},"tablet_extra":{"label":"Tablet orizzontale","value":1200,"default_value":1200,"direction":"max","is_enabled":false},"laptop":{"label":"Laptop","value":1366,"default_value":1366,"direction":"max","is_enabled":false},"widescreen":{"label":"Widescreen","value":2400,"default_value":2400,"direction":"min","is_enabled":false}}};
+var localize = {"ajaxurl":"/wp-admin/admin-ajax.php","nonce":"e7a9b39bb1","i18n":{"added":"Added ","compare":"Compare","loading":"Loading..."},"eael_translate_text":{"required_text":"is a required field","invalid_text":"Invalid","billing_text":"Billing","shipping_text":"Shipping","fg_mfp_counter_text":"of"},"page_permalink":"","cart_redirectition":"","cart_page_url":"","el_breakpoints":{"mobile":{"label":"Mobile Portrait","value":767,"default_value":767,"direction":"max","is_enabled":true},"mobile_extra":{"label":"Mobile Landscape","value":880,"default_value":880,"direction":"max","is_enabled":false},"tablet":{"label":"Tablet verticale","value":1024,"default_value":1024,"direction":"max","is_enabled":true},"tablet_extra":{"label":"Tablet orizzontale","value":1200,"default_value":1200,"direction":"max","is_enabled":false},"laptop":{"label":"Laptop","value":1366,"default_value":1366,"direction":"max","is_enabled":false},"widescreen":{"label":"Widescreen","value":2400,"default_value":2400,"direction":"min","is_enabled":false}}};
 //# sourceURL=eael-general-js-extra
 </script>
 <script src="/wp-content/plugins/essential-addons-for-elementor-lite/assets/front-end/js/view/general.min.js?ver=6.5.5" id="eael-general-js"></script>
