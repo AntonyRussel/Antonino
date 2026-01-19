@@ -2,46 +2,9 @@
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd http://www.google.com/schemas/sitemap-image/1.1 http://www.google.com/schemas/sitemap-image/1.1/sitemap-image.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<url>
 		<loc>/</loc>
-		<lastmod>2026-01-18T18:02:30+00:00</lastmod>
+		<lastmod>2026-01-19T15:31:16+00:00</lastmod>
 		<image:image>
-			<image:loc>/wp-content/uploads/2026/01/Showreel-ezgif.com-optimize.gif</image:loc>
-		</image:image>
-		<image:image>
-			<image:loc>/wp-content/uploads/2025/12/BEYONDTHESURFACEThisvideoholdsaspecialplaceformebecauseitrepresentsamomentoftrue-ezgif.com-optimize.gif</image:loc>
-		</image:image>
-		<image:image>
-			<image:loc>/wp-content/uploads/2025/12/Wrapped2025-ezgif.com-optimize.gif</image:loc>
-		</image:image>
-		<image:image>
-			<image:loc>/wp-content/uploads/2026/01/Enemy-ezgif.com-optimize-1.gif</image:loc>
-		</image:image>
-		<image:image>
-			<image:loc>/wp-content/uploads/2026/01/Collar-TerraMotion-ezgif.com-optimize-1.gif</image:loc>
-		</image:image>
-		<image:image>
-			<image:loc>/wp-content/uploads/2024/12/pink-city.gif</image:loc>
-		</image:image>
-		<image:image>
-			<image:loc>/wp-content/uploads/2024/12/etere.gif</image:loc>
-		</image:image>
-		<image:image>
-			<image:loc>/wp-content/uploads/2024/12/irregularity.gif</image:loc>
-		</image:image>
-		<image:image>
-			<image:loc>/wp-content/uploads/2025/10/AntoninoRussello_BeeAnimation-ezgif.com-optimize.gif</image:loc>
-		</image:image>
-		<image:image>
-			<image:loc>/wp-content/uploads/2025/01/Comp_2.gif</image:loc>
-		</image:image>
-		<image:image>
-			<image:loc>/wp-content/uploads/2026/01/motionterra.gif</image:loc>
-		</image:image>
-	</url>
-	<url>
-		<loc>/works/</loc>
-		<lastmod>2026-01-18T18:13:16+00:00</lastmod>
-		<image:image>
-			<image:loc>/wp-content/uploads/2026/01/Showreel-ezgif.com-optimize.gif</image:loc>
+			<image:loc>/wp-content/uploads/2026/01/Showreel-ezgif.com-optimize-1.gif</image:loc>
 		</image:image>
 		<image:image>
 			<image:loc>/wp-content/uploads/2025/12/BEYONDTHESURFACEThisvideoholdsaspecialplaceformebecauseitrepresentsamomentoftrue-ezgif.com-optimize.gif</image:loc>
@@ -83,6 +46,43 @@
 		<lastmod>2026-01-18T18:41:29+00:00</lastmod>
 		<image:image>
 			<image:loc>/wp-content/uploads/2024/12/1644361299751.jpg</image:loc>
+		</image:image>
+	</url>
+	<url>
+		<loc>/works/</loc>
+		<lastmod>2026-01-19T15:30:28+00:00</lastmod>
+		<image:image>
+			<image:loc>/wp-content/uploads/2026/01/Showreel-ezgif.com-optimize-1.gif</image:loc>
+		</image:image>
+		<image:image>
+			<image:loc>/wp-content/uploads/2025/12/BEYONDTHESURFACEThisvideoholdsaspecialplaceformebecauseitrepresentsamomentoftrue-ezgif.com-optimize.gif</image:loc>
+		</image:image>
+		<image:image>
+			<image:loc>/wp-content/uploads/2025/12/Wrapped2025-ezgif.com-optimize.gif</image:loc>
+		</image:image>
+		<image:image>
+			<image:loc>/wp-content/uploads/2026/01/Enemy-ezgif.com-optimize-1.gif</image:loc>
+		</image:image>
+		<image:image>
+			<image:loc>/wp-content/uploads/2026/01/Collar-TerraMotion-ezgif.com-optimize-1.gif</image:loc>
+		</image:image>
+		<image:image>
+			<image:loc>/wp-content/uploads/2024/12/pink-city.gif</image:loc>
+		</image:image>
+		<image:image>
+			<image:loc>/wp-content/uploads/2024/12/etere.gif</image:loc>
+		</image:image>
+		<image:image>
+			<image:loc>/wp-content/uploads/2024/12/irregularity.gif</image:loc>
+		</image:image>
+		<image:image>
+			<image:loc>/wp-content/uploads/2025/10/AntoninoRussello_BeeAnimation-ezgif.com-optimize.gif</image:loc>
+		</image:image>
+		<image:image>
+			<image:loc>/wp-content/uploads/2025/01/Comp_2.gif</image:loc>
+		</image:image>
+		<image:image>
+			<image:loc>/wp-content/uploads/2026/01/motionterra.gif</image:loc>
 		</image:image>
 	</url>
 </urlset>
