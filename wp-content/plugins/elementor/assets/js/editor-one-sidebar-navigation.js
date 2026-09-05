@@ -1,6 +1,490 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "../assets/dev/js/editor/utils/editor-one-events.js":
+/*!**********************************************************!*\
+  !*** ../assets/dev/js/editor/utils/editor-one-events.js ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "../node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports["default"] = exports.createDebouncedWidgetPanelSearch = exports.createDebouncedFinderSearch = exports.EditorOneEventManager = void 0;
+var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "../node_modules/@babel/runtime/helpers/defineProperty.js"));
+var _classCallCheck2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "../node_modules/@babel/runtime/helpers/classCallCheck.js"));
+var _createClass2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/createClass */ "../node_modules/@babel/runtime/helpers/createClass.js"));
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { (0, _defineProperty2.default)(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+var EditorOneEventManager = exports.EditorOneEventManager = /*#__PURE__*/function () {
+  function EditorOneEventManager() {
+    (0, _classCallCheck2.default)(this, EditorOneEventManager);
+  }
+  return (0, _createClass2.default)(EditorOneEventManager, null, [{
+    key: "getEventsManager",
+    value: function getEventsManager() {
+      var _elementorCommon;
+      return (_elementorCommon = elementorCommon) === null || _elementorCommon === void 0 ? void 0 : _elementorCommon.eventsManager;
+    }
+  }, {
+    key: "getConfig",
+    value: function getConfig() {
+      var _this$getEventsManage;
+      return (_this$getEventsManage = this.getEventsManager()) === null || _this$getEventsManage === void 0 ? void 0 : _this$getEventsManage.config;
+    }
+  }, {
+    key: "canSendEvents",
+    value: function canSendEvents() {
+      var _elementorCommon2;
+      return ((_elementorCommon2 = elementorCommon) === null || _elementorCommon2 === void 0 || (_elementorCommon2 = _elementorCommon2.config) === null || _elementorCommon2 === void 0 || (_elementorCommon2 = _elementorCommon2.editor_events) === null || _elementorCommon2 === void 0 ? void 0 : _elementorCommon2.can_send_events) || false;
+    }
+  }, {
+    key: "isEventsManagerAvailable",
+    value: function isEventsManagerAvailable() {
+      var eventsManager = this.getEventsManager();
+      return eventsManager && 'function' === typeof eventsManager.dispatchEvent;
+    }
+  }, {
+    key: "dispatchEvent",
+    value: function dispatchEvent(eventName, payload) {
+      try {
+        if (!this.isEventsManagerAvailable() || !this.canSendEvents()) {
+          return false;
+        }
+        this.getEventsManager().dispatchEvent(eventName, payload);
+        return true;
+      } catch (error) {
+        return false;
+      }
+    }
+  }, {
+    key: "toLowerSnake",
+    value: function toLowerSnake(value) {
+      if (!value || 'string' !== typeof value) {
+        return value;
+      }
+      return value.replace(/\s+/g, '_').toLowerCase();
+    }
+  }, {
+    key: "decodeHtmlEntities",
+    value: function decodeHtmlEntities(text) {
+      if (!text || 'string' !== typeof text) {
+        return text;
+      }
+      var doc = new DOMParser().parseFromString(text, 'text/html');
+      return doc.body.textContent || text;
+    }
+  }, {
+    key: "isInEditorContext",
+    value: function isInEditorContext() {
+      var _window$elementor;
+      return 'undefined' !== typeof window.elementor && !!((_window$elementor = window.elementor) !== null && _window$elementor !== void 0 && _window$elementor.documents);
+    }
+  }, {
+    key: "getFinderContext",
+    value: function getFinderContext() {
+      var _config$appTypes, _config$appTypes2, _config$locations, _config$locations2;
+      var config = this.getConfig();
+      var isEditor = this.isInEditorContext();
+      return {
+        windowName: isEditor ? config === null || config === void 0 || (_config$appTypes = config.appTypes) === null || _config$appTypes === void 0 ? void 0 : _config$appTypes.editor : config === null || config === void 0 || (_config$appTypes2 = config.appTypes) === null || _config$appTypes2 === void 0 ? void 0 : _config$appTypes2.wpAdmin,
+        targetLocation: this.toLowerSnake(isEditor ? config === null || config === void 0 || (_config$locations = config.locations) === null || _config$locations === void 0 ? void 0 : _config$locations.topBar : config === null || config === void 0 || (_config$locations2 = config.locations) === null || _config$locations2 === void 0 ? void 0 : _config$locations2.sidebar)
+      };
+    }
+  }, {
+    key: "createBasePayload",
+    value: function createBasePayload() {
+      var _config$appTypes$edit, _config$appTypes3, _config$appTypes$edit2, _config$appTypes4;
+      var overrides = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      var config = this.getConfig();
+      return _objectSpread({
+        app_type: (_config$appTypes$edit = config === null || config === void 0 || (_config$appTypes3 = config.appTypes) === null || _config$appTypes3 === void 0 ? void 0 : _config$appTypes3.editor) !== null && _config$appTypes$edit !== void 0 ? _config$appTypes$edit : 'editor',
+        window_name: (_config$appTypes$edit2 = config === null || config === void 0 || (_config$appTypes4 = config.appTypes) === null || _config$appTypes4 === void 0 ? void 0 : _config$appTypes4.editor) !== null && _config$appTypes$edit2 !== void 0 ? _config$appTypes$edit2 : 'editor'
+      }, overrides);
+    }
+  }, {
+    key: "sendTopBarPublishDropdown",
+    value: function sendTopBarPublishDropdown(targetName) {
+      var _config$names, _config$triggers, _config$targetTypes, _config$interactionRe, _config$locations3, _config$secondaryLoca, _config$targetTypes2;
+      var config = this.getConfig();
+      return this.dispatchEvent(config === null || config === void 0 || (_config$names = config.names) === null || _config$names === void 0 || (_config$names = _config$names.editorOne) === null || _config$names === void 0 ? void 0 : _config$names.topBarPublishDropdown, this.createBasePayload({
+        interaction_type: this.toLowerSnake(config === null || config === void 0 || (_config$triggers = config.triggers) === null || _config$triggers === void 0 ? void 0 : _config$triggers.click),
+        target_type: config === null || config === void 0 || (_config$targetTypes = config.targetTypes) === null || _config$targetTypes === void 0 ? void 0 : _config$targetTypes.dropdownItem,
+        target_name: targetName,
+        interaction_result: config === null || config === void 0 || (_config$interactionRe = config.interactionResults) === null || _config$interactionRe === void 0 ? void 0 : _config$interactionRe.actionSelected,
+        target_location: this.toLowerSnake(config === null || config === void 0 || (_config$locations3 = config.locations) === null || _config$locations3 === void 0 ? void 0 : _config$locations3.topBar),
+        location_l1: this.toLowerSnake(config === null || config === void 0 || (_config$secondaryLoca = config.secondaryLocations) === null || _config$secondaryLoca === void 0 ? void 0 : _config$secondaryLoca.publishDropdown),
+        location_l2: config === null || config === void 0 || (_config$targetTypes2 = config.targetTypes) === null || _config$targetTypes2 === void 0 ? void 0 : _config$targetTypes2.dropdownItem,
+        interaction_description: 'User selected an action from the publish dropdown'
+      }));
+    }
+  }, {
+    key: "sendTopBarPageList",
+    value: function sendTopBarPageList(targetName) {
+      var _config$names2, _config$triggers2, _config$targetTypes3, _config$interactionRe2, _config$interactionRe3, _config$locations4, _config$secondaryLoca2, _config$targetTypes4;
+      var isCreate = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+      var config = this.getConfig();
+      return this.dispatchEvent(config === null || config === void 0 || (_config$names2 = config.names) === null || _config$names2 === void 0 || (_config$names2 = _config$names2.editorOne) === null || _config$names2 === void 0 ? void 0 : _config$names2.topBarPageList, this.createBasePayload({
+        interaction_type: this.toLowerSnake(config === null || config === void 0 || (_config$triggers2 = config.triggers) === null || _config$triggers2 === void 0 ? void 0 : _config$triggers2.click),
+        target_type: config === null || config === void 0 || (_config$targetTypes3 = config.targetTypes) === null || _config$targetTypes3 === void 0 ? void 0 : _config$targetTypes3.dropdownItem,
+        target_name: targetName,
+        interaction_result: isCreate ? config === null || config === void 0 || (_config$interactionRe2 = config.interactionResults) === null || _config$interactionRe2 === void 0 ? void 0 : _config$interactionRe2.create : config === null || config === void 0 || (_config$interactionRe3 = config.interactionResults) === null || _config$interactionRe3 === void 0 ? void 0 : _config$interactionRe3.navigate,
+        target_location: this.toLowerSnake(config === null || config === void 0 || (_config$locations4 = config.locations) === null || _config$locations4 === void 0 ? void 0 : _config$locations4.topBar),
+        location_l1: this.toLowerSnake(config === null || config === void 0 || (_config$secondaryLoca2 = config.secondaryLocations) === null || _config$secondaryLoca2 === void 0 ? void 0 : _config$secondaryLoca2.pageListDropdown),
+        location_l2: config === null || config === void 0 || (_config$targetTypes4 = config.targetTypes) === null || _config$targetTypes4 === void 0 ? void 0 : _config$targetTypes4.dropdownItem,
+        interaction_description: 'User selected an action from the page list dropdown'
+      }));
+    }
+  }, {
+    key: "sendSiteSettingsSession",
+    value: function sendSiteSettingsSession(_ref) {
+      var _config$names3, _config$triggers3, _config$interactionRe4, _config$locations5, _config$secondaryLoca3;
+      var targetType = _ref.targetType,
+        _ref$visitedItems = _ref.visitedItems,
+        visitedItems = _ref$visitedItems === void 0 ? [] : _ref$visitedItems,
+        _ref$savedItems = _ref.savedItems,
+        savedItems = _ref$savedItems === void 0 ? [] : _ref$savedItems,
+        state = _ref.state;
+      var config = this.getConfig();
+      return this.dispatchEvent(config === null || config === void 0 || (_config$names3 = config.names) === null || _config$names3 === void 0 || (_config$names3 = _config$names3.editorOne) === null || _config$names3 === void 0 ? void 0 : _config$names3.siteSettingsSession, this.createBasePayload({
+        interaction_type: this.toLowerSnake(config === null || config === void 0 || (_config$triggers3 = config.triggers) === null || _config$triggers3 === void 0 ? void 0 : _config$triggers3.click),
+        target_type: targetType,
+        target_name: 'site_settings',
+        interaction_result: config === null || config === void 0 || (_config$interactionRe4 = config.interactionResults) === null || _config$interactionRe4 === void 0 ? void 0 : _config$interactionRe4.sessionEnd,
+        target_location: this.toLowerSnake(config === null || config === void 0 || (_config$locations5 = config.locations) === null || _config$locations5 === void 0 ? void 0 : _config$locations5.leftPanel),
+        location_l1: this.toLowerSnake(config === null || config === void 0 || (_config$secondaryLoca3 = config.secondaryLocations) === null || _config$secondaryLoca3 === void 0 ? void 0 : _config$secondaryLoca3.siteSettings),
+        interaction_description: 'Records areas visited as part of the site setting session',
+        metadata: {
+          visited_items: visitedItems,
+          saved_items: savedItems
+        },
+        state: state
+      }));
+    }
+  }, {
+    key: "sendELibraryNav",
+    value: function sendELibraryNav(tabName) {
+      var _config$names4, _config$triggers4, _config$targetTypes5, _config$interactionRe5, _config$locations6, _config$secondaryLoca4;
+      var config = this.getConfig();
+      return this.dispatchEvent(config === null || config === void 0 || (_config$names4 = config.names) === null || _config$names4 === void 0 || (_config$names4 = _config$names4.editorOne) === null || _config$names4 === void 0 ? void 0 : _config$names4.eLibraryNav, this.createBasePayload({
+        interaction_type: this.toLowerSnake(config === null || config === void 0 || (_config$triggers4 = config.triggers) === null || _config$triggers4 === void 0 ? void 0 : _config$triggers4.tabSelect),
+        target_type: config === null || config === void 0 || (_config$targetTypes5 = config.targetTypes) === null || _config$targetTypes5 === void 0 ? void 0 : _config$targetTypes5.tab,
+        target_name: this.toLowerSnake(tabName),
+        interaction_result: config === null || config === void 0 || (_config$interactionRe5 = config.interactionResults) === null || _config$interactionRe5 === void 0 ? void 0 : _config$interactionRe5.tabChanged,
+        target_location: this.toLowerSnake(config === null || config === void 0 || (_config$locations6 = config.locations) === null || _config$locations6 === void 0 ? void 0 : _config$locations6.elementorLibrary),
+        location_l1: this.toLowerSnake(config === null || config === void 0 || (_config$secondaryLoca4 = config.secondaryLocations) === null || _config$secondaryLoca4 === void 0 ? void 0 : _config$secondaryLoca4.libraryTabs),
+        interaction_description: 'User navigates within elementor library'
+      }));
+    }
+  }, {
+    key: "sendELibraryInsert",
+    value: function sendELibraryInsert(_ref2) {
+      var _config$triggers5, _config$targetTypes6, _config$interactionRe6, _config$locations7, _config$secondaryLoca5, _config$names5;
+      var assetId = _ref2.assetId,
+        assetName = _ref2.assetName,
+        libraryType = _ref2.libraryType,
+        _ref2$proRequired = _ref2.proRequired,
+        proRequired = _ref2$proRequired === void 0 ? false : _ref2$proRequired;
+      var config = this.getConfig();
+      var payload = this.createBasePayload({
+        interaction_type: this.toLowerSnake(config === null || config === void 0 || (_config$triggers5 = config.triggers) === null || _config$triggers5 === void 0 ? void 0 : _config$triggers5.insert),
+        target_type: config === null || config === void 0 || (_config$targetTypes6 = config.targetTypes) === null || _config$targetTypes6 === void 0 ? void 0 : _config$targetTypes6.button,
+        target_name: String(assetId),
+        interaction_result: config === null || config === void 0 || (_config$interactionRe6 = config.interactionResults) === null || _config$interactionRe6 === void 0 ? void 0 : _config$interactionRe6.assetInserted,
+        target_location: this.toLowerSnake(config === null || config === void 0 || (_config$locations7 = config.locations) === null || _config$locations7 === void 0 ? void 0 : _config$locations7.elementorLibrary),
+        location_l1: this.toLowerSnake(libraryType),
+        location_l2: this.toLowerSnake(config === null || config === void 0 || (_config$secondaryLoca5 = config.secondaryLocations) === null || _config$secondaryLoca5 === void 0 ? void 0 : _config$secondaryLoca5.assetCard),
+        interaction_description: 'User inserts block/pages from elementor library',
+        metadata: {
+          template_id: String(assetId),
+          template_name: this.decodeHtmlEntities(assetName) || ''
+        }
+      });
+      if (proRequired) {
+        payload.state = 'pro_plan_required';
+      }
+      return this.dispatchEvent(config === null || config === void 0 || (_config$names5 = config.names) === null || _config$names5 === void 0 || (_config$names5 = _config$names5.editorOne) === null || _config$names5 === void 0 ? void 0 : _config$names5.eLibraryInsert, payload);
+    }
+  }, {
+    key: "sendELibraryFavorite",
+    value: function sendELibraryFavorite(_ref3) {
+      var _config$triggers6, _config$targetTypes7, _config$interactionRe7, _config$locations8, _config$secondaryLoca6, _config$names6;
+      var assetId = _ref3.assetId,
+        assetName = _ref3.assetName,
+        libraryType = _ref3.libraryType,
+        isFavorite = _ref3.isFavorite,
+        _ref3$proRequired = _ref3.proRequired,
+        proRequired = _ref3$proRequired === void 0 ? false : _ref3$proRequired;
+      var config = this.getConfig();
+      var payload = this.createBasePayload({
+        interaction_type: this.toLowerSnake(config === null || config === void 0 || (_config$triggers6 = config.triggers) === null || _config$triggers6 === void 0 ? void 0 : _config$triggers6.click),
+        target_type: config === null || config === void 0 || (_config$targetTypes7 = config.targetTypes) === null || _config$targetTypes7 === void 0 ? void 0 : _config$targetTypes7.toggle,
+        target_name: String(assetId),
+        interaction_result: config === null || config === void 0 || (_config$interactionRe7 = config.interactionResults) === null || _config$interactionRe7 === void 0 ? void 0 : _config$interactionRe7.assetFavorite,
+        target_value: Boolean(isFavorite),
+        target_location: this.toLowerSnake(config === null || config === void 0 || (_config$locations8 = config.locations) === null || _config$locations8 === void 0 ? void 0 : _config$locations8.elementorLibrary),
+        location_l1: this.toLowerSnake(libraryType),
+        location_l2: this.toLowerSnake(config === null || config === void 0 || (_config$secondaryLoca6 = config.secondaryLocations) === null || _config$secondaryLoca6 === void 0 ? void 0 : _config$secondaryLoca6.assetCard),
+        interaction_description: 'User favorite block/pages from elementor library',
+        metadata: {
+          template_id: String(assetId),
+          template_name: this.decodeHtmlEntities(assetName) || ''
+        }
+      });
+      if (proRequired) {
+        payload.state = 'pro_plan_required';
+      }
+      return this.dispatchEvent(config === null || config === void 0 || (_config$names6 = config.names) === null || _config$names6 === void 0 || (_config$names6 = _config$names6.editorOne) === null || _config$names6 === void 0 ? void 0 : _config$names6.eLibraryFavorite, payload);
+    }
+  }, {
+    key: "sendELibraryGenerateAi",
+    value: function sendELibraryGenerateAi(_ref4) {
+      var _config$names7, _config$triggers7, _config$targetTypes8, _config$interactionRe8, _config$locations9, _config$secondaryLoca7;
+      var assetId = _ref4.assetId,
+        assetName = _ref4.assetName,
+        libraryType = _ref4.libraryType;
+      var config = this.getConfig();
+      return this.dispatchEvent(config === null || config === void 0 || (_config$names7 = config.names) === null || _config$names7 === void 0 || (_config$names7 = _config$names7.editorOne) === null || _config$names7 === void 0 ? void 0 : _config$names7.eLibraryGenerateAi, this.createBasePayload({
+        interaction_type: this.toLowerSnake(config === null || config === void 0 || (_config$triggers7 = config.triggers) === null || _config$triggers7 === void 0 ? void 0 : _config$triggers7.click),
+        target_type: config === null || config === void 0 || (_config$targetTypes8 = config.targetTypes) === null || _config$targetTypes8 === void 0 ? void 0 : _config$targetTypes8.button,
+        target_name: String(assetId),
+        interaction_result: config === null || config === void 0 || (_config$interactionRe8 = config.interactionResults) === null || _config$interactionRe8 === void 0 ? void 0 : _config$interactionRe8.aiGenerate,
+        target_location: this.toLowerSnake(config === null || config === void 0 || (_config$locations9 = config.locations) === null || _config$locations9 === void 0 ? void 0 : _config$locations9.elementorLibrary),
+        location_l1: this.toLowerSnake(libraryType),
+        location_l2: this.toLowerSnake(config === null || config === void 0 || (_config$secondaryLoca7 = config.secondaryLocations) === null || _config$secondaryLoca7 === void 0 ? void 0 : _config$secondaryLoca7.assetCard),
+        interaction_description: 'User generated block/page based on a library asset',
+        metadata: {
+          template_id: String(assetId),
+          template_name: this.decodeHtmlEntities(assetName) || ''
+        }
+      }));
+    }
+  }, {
+    key: "sendFinderSearchInput",
+    value: function sendFinderSearchInput(_ref5) {
+      var _config$triggers8, _config$targetTypes9, _config$interactionRe9, _config$interactionRe0, _config$secondaryLoca8, _config$names8;
+      var resultsCount = _ref5.resultsCount,
+        _ref5$searchTerm = _ref5.searchTerm,
+        searchTerm = _ref5$searchTerm === void 0 ? null : _ref5$searchTerm;
+      var config = this.getConfig();
+      var hasResults = resultsCount > 0;
+      var finderContext = this.getFinderContext();
+      var payload = this.createBasePayload({
+        window_name: finderContext.windowName,
+        interaction_type: this.toLowerSnake(config === null || config === void 0 || (_config$triggers8 = config.triggers) === null || _config$triggers8 === void 0 ? void 0 : _config$triggers8.typing),
+        target_type: config === null || config === void 0 || (_config$targetTypes9 = config.targetTypes) === null || _config$targetTypes9 === void 0 ? void 0 : _config$targetTypes9.searchInput,
+        target_name: 'finder',
+        interaction_result: hasResults ? config === null || config === void 0 || (_config$interactionRe9 = config.interactionResults) === null || _config$interactionRe9 === void 0 ? void 0 : _config$interactionRe9.resultsUpdated : config === null || config === void 0 || (_config$interactionRe0 = config.interactionResults) === null || _config$interactionRe0 === void 0 ? void 0 : _config$interactionRe0.noResults,
+        target_location: finderContext.targetLocation,
+        location_l1: this.toLowerSnake(config === null || config === void 0 || (_config$secondaryLoca8 = config.secondaryLocations) === null || _config$secondaryLoca8 === void 0 ? void 0 : _config$secondaryLoca8.finder),
+        interaction_description: 'Finder search input, follows debounce behavior',
+        metadata: {
+          results_count: resultsCount
+        }
+      });
+      if (!hasResults && searchTerm) {
+        payload.metadata.search_term = searchTerm;
+      }
+      return this.dispatchEvent(config === null || config === void 0 || (_config$names8 = config.names) === null || _config$names8 === void 0 || (_config$names8 = _config$names8.editorOne) === null || _config$names8 === void 0 ? void 0 : _config$names8.finderSearchInput, payload);
+    }
+  }, {
+    key: "sendFinderResultSelect",
+    value: function sendFinderResultSelect(choice) {
+      var _config$names9, _config$triggers9, _config$targetTypes0, _config$interactionRe1, _config$secondaryLoca9, _config$secondaryLoca0;
+      var config = this.getConfig();
+      var finderContext = this.getFinderContext();
+      return this.dispatchEvent(config === null || config === void 0 || (_config$names9 = config.names) === null || _config$names9 === void 0 || (_config$names9 = _config$names9.editorOne) === null || _config$names9 === void 0 ? void 0 : _config$names9.finderResultSelect, this.createBasePayload({
+        window_name: finderContext.windowName,
+        interaction_type: this.toLowerSnake(config === null || config === void 0 || (_config$triggers9 = config.triggers) === null || _config$triggers9 === void 0 ? void 0 : _config$triggers9.click),
+        target_type: config === null || config === void 0 || (_config$targetTypes0 = config.targetTypes) === null || _config$targetTypes0 === void 0 ? void 0 : _config$targetTypes0.searchResult,
+        target_name: choice,
+        interaction_result: config === null || config === void 0 || (_config$interactionRe1 = config.interactionResults) === null || _config$interactionRe1 === void 0 ? void 0 : _config$interactionRe1.selected,
+        target_location: finderContext.targetLocation,
+        location_l1: this.toLowerSnake(config === null || config === void 0 || (_config$secondaryLoca9 = config.secondaryLocations) === null || _config$secondaryLoca9 === void 0 ? void 0 : _config$secondaryLoca9.finder),
+        location_l2: this.toLowerSnake(config === null || config === void 0 || (_config$secondaryLoca0 = config.secondaryLocations) === null || _config$secondaryLoca0 === void 0 ? void 0 : _config$secondaryLoca0.finderResults),
+        interaction_description: 'Finder search results was selected'
+      }));
+    }
+  }, {
+    key: "sendCanvasEmptyBoxAction",
+    value: function sendCanvasEmptyBoxAction(_ref6) {
+      var _config$triggers0, _config$targetTypes1, _config$interactionRe10, _config$locations0, _config$secondaryLoca1, _config$names0;
+      var targetName = _ref6.targetName,
+        _ref6$metadata = _ref6.metadata,
+        metadata = _ref6$metadata === void 0 ? {} : _ref6$metadata,
+        _ref6$containerCreate = _ref6.containerCreated,
+        containerCreated = _ref6$containerCreate === void 0 ? null : _ref6$containerCreate;
+      var config = this.getConfig();
+      var payload = this.createBasePayload({
+        interaction_type: this.toLowerSnake(config === null || config === void 0 || (_config$triggers0 = config.triggers) === null || _config$triggers0 === void 0 ? void 0 : _config$triggers0.click),
+        target_type: config === null || config === void 0 || (_config$targetTypes1 = config.targetTypes) === null || _config$targetTypes1 === void 0 ? void 0 : _config$targetTypes1.buttons,
+        target_name: targetName,
+        interaction_result: config === null || config === void 0 || (_config$interactionRe10 = config.interactionResults) === null || _config$interactionRe10 === void 0 ? void 0 : _config$interactionRe10.selected,
+        target_location: this.toLowerSnake(config === null || config === void 0 || (_config$locations0 = config.locations) === null || _config$locations0 === void 0 ? void 0 : _config$locations0.canvas),
+        location_l1: this.toLowerSnake(config === null || config === void 0 || (_config$secondaryLoca1 = config.secondaryLocations) === null || _config$secondaryLoca1 === void 0 ? void 0 : _config$secondaryLoca1.emptyBox),
+        interaction_description: 'Empty box on canvas actions'
+      });
+      if (Object.keys(metadata).length > 0) {
+        payload.metadata = metadata;
+      }
+      if (containerCreated !== null) {
+        payload.state = containerCreated;
+      }
+      return this.dispatchEvent(config === null || config === void 0 || (_config$names0 = config.names) === null || _config$names0 === void 0 || (_config$names0 = _config$names0.editorOne) === null || _config$names0 === void 0 ? void 0 : _config$names0.canvasEmptyBoxAction, payload);
+    }
+  }, {
+    key: "sendWidgetPanelSearch",
+    value: function sendWidgetPanelSearch(_ref7) {
+      var _config$triggers1, _config$targetTypes10, _config$interactionRe11, _config$interactionRe12, _config$locations1, _config$locations10, _config$secondaryLoca10, _config$names1;
+      var resultsCount = _ref7.resultsCount,
+        _ref7$userInput = _ref7.userInput,
+        userInput = _ref7$userInput === void 0 ? null : _ref7$userInput;
+      var config = this.getConfig();
+      var hasResults = resultsCount > 0;
+      var payload = this.createBasePayload({
+        interaction_type: this.toLowerSnake(config === null || config === void 0 || (_config$triggers1 = config.triggers) === null || _config$triggers1 === void 0 ? void 0 : _config$triggers1.typing),
+        target_type: config === null || config === void 0 || (_config$targetTypes10 = config.targetTypes) === null || _config$targetTypes10 === void 0 ? void 0 : _config$targetTypes10.searchWidget,
+        target_name: 'search_widget',
+        interaction_result: hasResults ? config === null || config === void 0 || (_config$interactionRe11 = config.interactionResults) === null || _config$interactionRe11 === void 0 ? void 0 : _config$interactionRe11.resultsUpdated : config === null || config === void 0 || (_config$interactionRe12 = config.interactionResults) === null || _config$interactionRe12 === void 0 ? void 0 : _config$interactionRe12.noResults,
+        target_location: this.toLowerSnake(config === null || config === void 0 || (_config$locations1 = config.locations) === null || _config$locations1 === void 0 ? void 0 : _config$locations1.leftPanel),
+        location_l1: this.toLowerSnake(config === null || config === void 0 || (_config$locations10 = config.locations) === null || _config$locations10 === void 0 ? void 0 : _config$locations10.widgetPanel),
+        location_l2: this.toLowerSnake(config === null || config === void 0 || (_config$secondaryLoca10 = config.secondaryLocations) === null || _config$secondaryLoca10 === void 0 ? void 0 : _config$secondaryLoca10.searchBar),
+        interaction_description: 'Widget search input, follows debounce behavior'
+      });
+      if (!hasResults && userInput) {
+        payload.metadata = {
+          user_input: userInput
+        };
+      }
+      return this.dispatchEvent(config === null || config === void 0 || (_config$names1 = config.names) === null || _config$names1 === void 0 || (_config$names1 = _config$names1.editorOne) === null || _config$names1 === void 0 ? void 0 : _config$names1.widgetPanelSearch, payload);
+    }
+  }, {
+    key: "createWpDashPayload",
+    value: function createWpDashPayload() {
+      var _config$appTypes$wpDa, _config$appTypes5, _config$locations11;
+      var overrides = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      var config = this.getConfig();
+      return this.createBasePayload(_objectSpread({
+        window_name: (_config$appTypes$wpDa = config === null || config === void 0 || (_config$appTypes5 = config.appTypes) === null || _config$appTypes5 === void 0 ? void 0 : _config$appTypes5.wpDash) !== null && _config$appTypes$wpDa !== void 0 ? _config$appTypes$wpDa : 'wpdash',
+        target_location: this.toLowerSnake(config === null || config === void 0 || (_config$locations11 = config.locations) === null || _config$locations11 === void 0 ? void 0 : _config$locations11.wpDashAdmin),
+        location_l2: ''
+      }, overrides));
+    }
+  }, {
+    key: "sendWpDashElementorMenuClick",
+    value: function sendWpDashElementorMenuClick() {
+      var _config$names10, _config$triggers10, _config$targetTypes11, _config$interactionRe13, _config$secondaryLoca11;
+      var config = this.getConfig();
+      return this.dispatchEvent(config === null || config === void 0 || (_config$names10 = config.names) === null || _config$names10 === void 0 || (_config$names10 = _config$names10.editorOne) === null || _config$names10 === void 0 ? void 0 : _config$names10.wpDashElementorMenuClick, this.createWpDashPayload({
+        interaction_type: this.toLowerSnake(config === null || config === void 0 || (_config$triggers10 = config.triggers) === null || _config$triggers10 === void 0 ? void 0 : _config$triggers10.click),
+        target_type: config === null || config === void 0 || (_config$targetTypes11 = config.targetTypes) === null || _config$targetTypes11 === void 0 ? void 0 : _config$targetTypes11.wpDashAdminMenuItem,
+        target_name: 'elementor_menu_item',
+        interaction_result: config === null || config === void 0 || (_config$interactionRe13 = config.interactionResults) === null || _config$interactionRe13 === void 0 ? void 0 : _config$interactionRe13.elementorSideMenuOpened,
+        location_l1: this.toLowerSnake(config === null || config === void 0 || (_config$secondaryLoca11 = config.secondaryLocations) === null || _config$secondaryLoca11 === void 0 ? void 0 : _config$secondaryLoca11.wpDashElementorCoreMenu),
+        interaction_description: 'core_user_clicked_elementor_menu_item'
+      }));
+    }
+  }, {
+    key: "sendWpDashEditorSubMenuHover",
+    value: function sendWpDashEditorSubMenuHover() {
+      var _config$names11, _config$triggers11, _config$targetTypes12, _config$interactionRe14, _config$secondaryLoca12;
+      var config = this.getConfig();
+      return this.dispatchEvent(config === null || config === void 0 || (_config$names11 = config.names) === null || _config$names11 === void 0 || (_config$names11 = _config$names11.editorOne) === null || _config$names11 === void 0 ? void 0 : _config$names11.wpDashEditorSubMenuHover, this.createWpDashPayload({
+        interaction_type: this.toLowerSnake(config === null || config === void 0 || (_config$triggers11 = config.triggers) === null || _config$triggers11 === void 0 ? void 0 : _config$triggers11.hover),
+        target_type: config === null || config === void 0 || (_config$targetTypes12 = config.targetTypes) === null || _config$targetTypes12 === void 0 ? void 0 : _config$targetTypes12.wpDashEditorMenu,
+        target_name: 'wpdash_editor_sub_menu',
+        interaction_result: config === null || config === void 0 || (_config$interactionRe14 = config.interactionResults) === null || _config$interactionRe14 === void 0 ? void 0 : _config$interactionRe14.editorSubMenuOpened,
+        location_l1: this.toLowerSnake(config === null || config === void 0 || (_config$secondaryLoca12 = config.secondaryLocations) === null || _config$secondaryLoca12 === void 0 ? void 0 : _config$secondaryLoca12.wpDashElementorCoreSubMenu),
+        interaction_description: 'core_user_hovered_sub_menu'
+      }));
+    }
+  }, {
+    key: "sendWpDashThemeBuilderClick",
+    value: function sendWpDashThemeBuilderClick() {
+      var _config$names12, _config$triggers12, _config$targetTypes13, _config$interactionRe15, _config$secondaryLoca13;
+      var config = this.getConfig();
+      return this.dispatchEvent(config === null || config === void 0 || (_config$names12 = config.names) === null || _config$names12 === void 0 || (_config$names12 = _config$names12.editorOne) === null || _config$names12 === void 0 ? void 0 : _config$names12.wpDashThemeBuilderClick, this.createWpDashPayload({
+        interaction_type: this.toLowerSnake(config === null || config === void 0 || (_config$triggers12 = config.triggers) === null || _config$triggers12 === void 0 ? void 0 : _config$triggers12.click),
+        target_type: config === null || config === void 0 || (_config$targetTypes13 = config.targetTypes) === null || _config$targetTypes13 === void 0 ? void 0 : _config$targetTypes13.wpDashSubMenuItem,
+        target_name: 'theme_builder_menu_item',
+        interaction_result: config === null || config === void 0 || (_config$interactionRe15 = config.interactionResults) === null || _config$interactionRe15 === void 0 ? void 0 : _config$interactionRe15.themeBuilderPromotionWindow,
+        location_l1: this.toLowerSnake(config === null || config === void 0 || (_config$secondaryLoca13 = config.secondaryLocations) === null || _config$secondaryLoca13 === void 0 ? void 0 : _config$secondaryLoca13.wpDashThemeBuilder),
+        interaction_description: 'core_user_clicked_theme_builder_menu_item'
+      }));
+    }
+  }, {
+    key: "sendSidebarMenuItemClicked",
+    value: function sendSidebarMenuItemClicked(_ref8) {
+      var eventId = _ref8.eventId,
+        groupEventId = _ref8.groupEventId;
+      try {
+        var _config$windowNames, _config$triggers13, _config$targetTypes14, _config$interactionRe16, _config$locations12, _config$names13;
+        var config = this.getConfig();
+        var payload = this.createBasePayload({
+          window_name: config === null || config === void 0 || (_config$windowNames = config.windowNames) === null || _config$windowNames === void 0 ? void 0 : _config$windowNames.sidebarMenu,
+          interaction_type: this.toLowerSnake(config === null || config === void 0 || (_config$triggers13 = config.triggers) === null || _config$triggers13 === void 0 ? void 0 : _config$triggers13.click),
+          target_type: config === null || config === void 0 || (_config$targetTypes14 = config.targetTypes) === null || _config$targetTypes14 === void 0 ? void 0 : _config$targetTypes14.link,
+          target_name: eventId,
+          interaction_result: config === null || config === void 0 || (_config$interactionRe16 = config.interactionResults) === null || _config$interactionRe16 === void 0 ? void 0 : _config$interactionRe16.pageOpened,
+          target_location: this.toLowerSnake(config === null || config === void 0 || (_config$locations12 = config.locations) === null || _config$locations12 === void 0 ? void 0 : _config$locations12.sidebar)
+        });
+        if (groupEventId) {
+          payload.location_l1 = groupEventId;
+        }
+        return this.dispatchEvent(config === null || config === void 0 || (_config$names13 = config.names) === null || _config$names13 === void 0 || (_config$names13 = _config$names13.editorOne) === null || _config$names13 === void 0 ? void 0 : _config$names13.sidebarMenuItemClicked, payload);
+      } catch (error) {
+        return false;
+      }
+    }
+  }, {
+    key: "sendSidebarMenuGroupToggled",
+    value: function sendSidebarMenuGroupToggled(_ref9) {
+      var eventId = _ref9.eventId,
+        isExpanded = _ref9.isExpanded;
+      try {
+        var _config$interactionRe17, _config$interactionRe18, _config$names14, _config$windowNames2, _config$triggers14, _config$targetTypes15, _config$locations13;
+        var config = this.getConfig();
+        var interactionResult = isExpanded ? config === null || config === void 0 || (_config$interactionRe17 = config.interactionResults) === null || _config$interactionRe17 === void 0 ? void 0 : _config$interactionRe17.expanded : config === null || config === void 0 || (_config$interactionRe18 = config.interactionResults) === null || _config$interactionRe18 === void 0 ? void 0 : _config$interactionRe18.collapsed;
+        return this.dispatchEvent(config === null || config === void 0 || (_config$names14 = config.names) === null || _config$names14 === void 0 || (_config$names14 = _config$names14.editorOne) === null || _config$names14 === void 0 ? void 0 : _config$names14.sidebarMenuGroupToggled, this.createBasePayload({
+          window_name: config === null || config === void 0 || (_config$windowNames2 = config.windowNames) === null || _config$windowNames2 === void 0 ? void 0 : _config$windowNames2.sidebarMenu,
+          interaction_type: this.toLowerSnake(config === null || config === void 0 || (_config$triggers14 = config.triggers) === null || _config$triggers14 === void 0 ? void 0 : _config$triggers14.click),
+          target_type: config === null || config === void 0 || (_config$targetTypes15 = config.targetTypes) === null || _config$targetTypes15 === void 0 ? void 0 : _config$targetTypes15.toggle,
+          target_name: eventId,
+          interaction_result: interactionResult,
+          target_location: this.toLowerSnake(config === null || config === void 0 || (_config$locations13 = config.locations) === null || _config$locations13 === void 0 ? void 0 : _config$locations13.sidebar)
+        }));
+      } catch (error) {
+        return false;
+      }
+    }
+  }]);
+}();
+var createDebouncedFinderSearch = exports.createDebouncedFinderSearch = function createDebouncedFinderSearch() {
+  var delay = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 300;
+  return _.debounce(function (resultsCount, searchTerm) {
+    EditorOneEventManager.sendFinderSearchInput({
+      resultsCount: resultsCount,
+      searchTerm: searchTerm
+    });
+  }, delay);
+};
+var createDebouncedWidgetPanelSearch = exports.createDebouncedWidgetPanelSearch = function createDebouncedWidgetPanelSearch() {
+  var delay = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 2000;
+  return _.debounce(function (resultsCount, userInput) {
+    EditorOneEventManager.sendWidgetPanelSearch({
+      resultsCount: resultsCount,
+      userInput: userInput
+    });
+  }, delay);
+};
+var _default = exports["default"] = EditorOneEventManager;
+
+/***/ }),
+
 /***/ "../assets/dev/js/utils/react.js":
 /*!***************************************!*\
   !*** ../assets/dev/js/utils/react.js ***!
@@ -51,6 +535,26 @@ function render(app, domElement) {
 var _default = exports["default"] = {
   render: render
 };
+
+/***/ }),
+
+/***/ "../modules/editor-one/assets/js/shared/is-rtl.js":
+/*!********************************************************!*\
+  !*** ../modules/editor-one/assets/js/shared/is-rtl.js ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports["default"] = isRTL;
+function isRTL() {
+  var _elementorCommon$conf, _elementorCommon;
+  return (_elementorCommon$conf = (_elementorCommon = elementorCommon) === null || _elementorCommon === void 0 || (_elementorCommon = _elementorCommon.config) === null || _elementorCommon === void 0 ? void 0 : _elementorCommon.isRTL) !== null && _elementorCommon$conf !== void 0 ? _elementorCommon$conf : false;
+}
 
 /***/ }),
 
@@ -108,8 +612,9 @@ Object.defineProperty(exports, "__esModule", ({
 exports["default"] = void 0;
 var _react = _interopRequireDefault(__webpack_require__(/*! react */ "react"));
 var _ui = __webpack_require__(/*! @elementor/ui */ "@elementor/ui");
+var _editorOneEvents = __webpack_require__(/*! elementor-editor-utils/editor-one-events */ "../assets/dev/js/editor/utils/editor-one-events.js");
 var _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ "../node_modules/prop-types/index.js"));
-var _styledComponents = __webpack_require__(/*! ./styled-components */ "../modules/editor-one/assets/js/sidebar-navigation/components/collapsed-menu/styled-components.js");
+var _shared = __webpack_require__(/*! ../shared */ "../modules/editor-one/assets/js/sidebar-navigation/components/shared/index.js");
 var CollapsedMenuItemPopover = function CollapsedMenuItemPopover(_ref) {
   var item = _ref.item,
     children = _ref.children,
@@ -118,10 +623,27 @@ var CollapsedMenuItemPopover = function CollapsedMenuItemPopover(_ref) {
     anchorEl = _ref.anchorEl,
     onClose = _ref.onClose,
     IconComponent = _ref.IconComponent,
-    isActive = _ref.isActive;
-  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_styledComponents.CollapsedIconButton, {
-    isHighlighted: isActive || isPopoverOpen
-  }, /*#__PURE__*/_react.default.createElement(IconComponent, null)), /*#__PURE__*/_react.default.createElement(_styledComponents.StyledPopover, {
+    isActive = _ref.isActive,
+    onMouseEnter = _ref.onMouseEnter,
+    anchorRef = _ref.anchorRef;
+  var handleChildClick = function handleChildClick(childItem) {
+    _editorOneEvents.EditorOneEventManager.sendSidebarMenuItemClicked({
+      eventId: childItem.event_id,
+      groupEventId: item.event_id
+    });
+  };
+  return /*#__PURE__*/_react.default.createElement(_ui.ListItem, {
+    disablePadding: true,
+    dense: true,
+    disableGutters: true,
+    onMouseEnter: onMouseEnter,
+    ref: anchorRef
+  }, /*#__PURE__*/_react.default.createElement(_shared.MenuItemButton, {
+    selected: isActive || isPopoverOpen,
+    sx: {
+      height: 36
+    }
+  }, /*#__PURE__*/_react.default.createElement(_shared.MenuIcon, null, /*#__PURE__*/_react.default.createElement(IconComponent, null))), /*#__PURE__*/_react.default.createElement(_shared.StyledPopover, {
     open: isPopoverOpen,
     anchorEl: anchorEl,
     onClose: onClose,
@@ -140,20 +662,24 @@ var CollapsedMenuItemPopover = function CollapsedMenuItemPopover(_ref) {
     },
     disableRestoreFocus: true,
     hideBackdrop: true
-  }, /*#__PURE__*/_react.default.createElement(_styledComponents.PopoverContent, null, /*#__PURE__*/_react.default.createElement(_ui.List, {
-    disablePadding: true
-  }, /*#__PURE__*/_react.default.createElement(_ui.ListSubheader, null, /*#__PURE__*/_react.default.createElement(_styledComponents.PopoverTitle, {
-    elementType: "div",
-    variant: "caption"
-  }, item.label)), children.map(function (childItem) {
+  }, /*#__PURE__*/_react.default.createElement(_shared.PopoverContent, null, /*#__PURE__*/_react.default.createElement(_ui.List, {
+    disablePadding: true,
+    dense: true
+  }, /*#__PURE__*/_react.default.createElement(_shared.PopoverTitle, null, item.label), children.map(function (childItem) {
     return /*#__PURE__*/_react.default.createElement(_ui.ListItem, {
       key: childItem.slug,
       disablePadding: true,
       disableGutters: true,
-      dense: true
-    }, /*#__PURE__*/_react.default.createElement(_styledComponents.PopoverListItemButton, {
+      dense: true,
+      sx: {
+        height: 28
+      }
+    }, /*#__PURE__*/_react.default.createElement(_shared.PopoverListItemButton, {
       component: "a",
       href: childItem.url,
+      onClick: function onClick() {
+        return handleChildClick(childItem);
+      },
       selected: childItem.slug === activeChildSlug
     }, /*#__PURE__*/_react.default.createElement(_ui.ListItemText, {
       primary: childItem.label,
@@ -171,7 +697,9 @@ CollapsedMenuItemPopover.propTypes = {
   anchorEl: _propTypes.default.object,
   onClose: _propTypes.default.func.isRequired,
   IconComponent: _propTypes.default.elementType.isRequired,
-  isActive: _propTypes.default.bool.isRequired
+  isActive: _propTypes.default.bool.isRequired,
+  onMouseEnter: _propTypes.default.func.isRequired,
+  anchorRef: _propTypes.default.oneOfType([_propTypes.default.func, _propTypes.default.object]).isRequired
 };
 var _default = exports["default"] = CollapsedMenuItemPopover;
 
@@ -194,25 +722,37 @@ exports["default"] = void 0;
 var _react = _interopRequireDefault(__webpack_require__(/*! react */ "react"));
 var _ui = __webpack_require__(/*! @elementor/ui */ "@elementor/ui");
 var _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ "../node_modules/prop-types/index.js"));
-var _styledComponents = __webpack_require__(/*! ./styled-components */ "../modules/editor-one/assets/js/sidebar-navigation/components/collapsed-menu/styled-components.js");
+var _shared = __webpack_require__(/*! ../shared */ "../modules/editor-one/assets/js/sidebar-navigation/components/shared/index.js");
+var _isRtl = _interopRequireDefault(__webpack_require__(/*! ../../../shared/is-rtl */ "../modules/editor-one/assets/js/shared/is-rtl.js"));
 var CollapsedMenuItemTooltip = function CollapsedMenuItemTooltip(_ref) {
   var item = _ref.item,
     isActive = _ref.isActive,
     onClick = _ref.onClick,
-    IconComponent = _ref.IconComponent;
-  return /*#__PURE__*/_react.default.createElement(_ui.Tooltip, {
+    IconComponent = _ref.IconComponent,
+    onMouseEnter = _ref.onMouseEnter;
+  var isRtlLanguage = (0, _isRtl.default)();
+  return /*#__PURE__*/_react.default.createElement(_ui.ListItem, {
+    disablePadding: true,
+    dense: true,
+    disableGutters: true,
+    onMouseEnter: onMouseEnter
+  }, /*#__PURE__*/_react.default.createElement(_ui.Tooltip, {
     title: item.label,
-    placement: "right"
-  }, /*#__PURE__*/_react.default.createElement(_styledComponents.CollapsedIconButton, {
+    placement: isRtlLanguage ? 'left' : 'right'
+  }, /*#__PURE__*/_react.default.createElement(_shared.MenuItemButton, {
     onClick: onClick,
-    isHighlighted: isActive
-  }, /*#__PURE__*/_react.default.createElement(IconComponent, null)));
+    selected: isActive,
+    sx: {
+      height: 36
+    }
+  }, /*#__PURE__*/_react.default.createElement(_shared.MenuIcon, null, /*#__PURE__*/_react.default.createElement(IconComponent, null)))));
 };
 CollapsedMenuItemTooltip.propTypes = {
   item: _propTypes.default.object.isRequired,
   isActive: _propTypes.default.bool.isRequired,
   onClick: _propTypes.default.func.isRequired,
-  IconComponent: _propTypes.default.elementType.isRequired
+  IconComponent: _propTypes.default.elementType.isRequired,
+  onMouseEnter: _propTypes.default.func.isRequired
 };
 var _default = exports["default"] = CollapsedMenuItemTooltip;
 
@@ -231,10 +771,6 @@ var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/inte
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-var _exportNames = {
-  SidebarCollapsedMenu: true,
-  SidebarCollapsedMenuItem: true
-};
 Object.defineProperty(exports, "SidebarCollapsedMenu", ({
   enumerable: true,
   get: function get() {
@@ -249,18 +785,6 @@ Object.defineProperty(exports, "SidebarCollapsedMenuItem", ({
 }));
 var _sidebarCollapsedMenu = _interopRequireDefault(__webpack_require__(/*! ./sidebar-collapsed-menu */ "../modules/editor-one/assets/js/sidebar-navigation/components/collapsed-menu/sidebar-collapsed-menu.js"));
 var _sidebarCollapsedMenuItem = _interopRequireDefault(__webpack_require__(/*! ./sidebar-collapsed-menu-item */ "../modules/editor-one/assets/js/sidebar-navigation/components/collapsed-menu/sidebar-collapsed-menu-item.js"));
-var _styledComponents = __webpack_require__(/*! ./styled-components */ "../modules/editor-one/assets/js/sidebar-navigation/components/collapsed-menu/styled-components.js");
-Object.keys(_styledComponents).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
-  if (key in exports && exports[key] === _styledComponents[key]) return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _styledComponents[key];
-    }
-  });
-});
 
 /***/ }),
 
@@ -279,12 +803,13 @@ Object.defineProperty(exports, "__esModule", ({
 }));
 exports["default"] = void 0;
 var _react = _interopRequireDefault(__webpack_require__(/*! react */ "react"));
+var _slicedToArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/slicedToArray */ "../node_modules/@babel/runtime/helpers/slicedToArray.js"));
 var _element = __webpack_require__(/*! @wordpress/element */ "../node_modules/@wordpress/element/build-module/index.js");
+var _editorOneEvents = __webpack_require__(/*! elementor-editor-utils/editor-one-events */ "../assets/dev/js/editor/utils/editor-one-events.js");
 var _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ "../node_modules/prop-types/index.js"));
 var _shared = __webpack_require__(/*! ../shared */ "../modules/editor-one/assets/js/sidebar-navigation/components/shared/index.js");
 var _collapsedMenuItemPopover = _interopRequireDefault(__webpack_require__(/*! ./collapsed-menu-item-popover */ "../modules/editor-one/assets/js/sidebar-navigation/components/collapsed-menu/collapsed-menu-item-popover.js"));
 var _collapsedMenuItemTooltip = _interopRequireDefault(__webpack_require__(/*! ./collapsed-menu-item-tooltip */ "../modules/editor-one/assets/js/sidebar-navigation/components/collapsed-menu/collapsed-menu-item-tooltip.js"));
-var _styledComponents = __webpack_require__(/*! ./styled-components */ "../modules/editor-one/assets/js/sidebar-navigation/components/collapsed-menu/styled-components.js");
 var SidebarCollapsedMenuItem = function SidebarCollapsedMenuItem(_ref) {
   var item = _ref.item,
     isActive = _ref.isActive,
@@ -294,8 +819,11 @@ var SidebarCollapsedMenuItem = function SidebarCollapsedMenuItem(_ref) {
     isPopoverOpen = _ref.isPopoverOpen,
     onOpenPopover = _ref.onOpenPopover,
     onClosePopover = _ref.onClosePopover;
-  var anchorRef = (0, _element.useRef)(null);
-  var hasChildren = children && children.length > 0;
+  var _useState = (0, _element.useState)(null),
+    _useState2 = (0, _slicedToArray2.default)(_useState, 2),
+    anchorEl = _useState2[0],
+    setAnchorEl = _useState2[1];
+  var hasChildren = !!(children !== null && children !== void 0 && children.length);
   var IconComponent = _shared.ICON_MAP[item.icon] || _shared.DEFAULT_ICON;
   var handleMouseEnter = function handleMouseEnter() {
     if (hasChildren) {
@@ -306,26 +834,29 @@ var SidebarCollapsedMenuItem = function SidebarCollapsedMenuItem(_ref) {
   };
   var handleClick = function handleClick() {
     if (!hasChildren) {
+      _editorOneEvents.EditorOneEventManager.sendSidebarMenuItemClicked({
+        eventId: item.event_id
+      });
       window.location.href = item.url;
     }
   };
-  return /*#__PURE__*/_react.default.createElement(_styledComponents.CollapsedMenuItemContainer, {
-    ref: anchorRef,
-    onMouseEnter: handleMouseEnter
-  }, hasChildren ? /*#__PURE__*/_react.default.createElement(_collapsedMenuItemPopover.default, {
+  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, hasChildren ? /*#__PURE__*/_react.default.createElement(_collapsedMenuItemPopover.default, {
     item: item,
     children: children,
     activeChildSlug: activeChildSlug,
     isPopoverOpen: isPopoverOpen,
-    anchorEl: anchorRef.current,
+    anchorEl: anchorEl,
     onClose: onClosePopover,
     IconComponent: IconComponent,
-    isActive: isActive
+    isActive: isActive,
+    onMouseEnter: handleMouseEnter,
+    anchorRef: setAnchorEl
   }) : /*#__PURE__*/_react.default.createElement(_collapsedMenuItemTooltip.default, {
     item: item,
     isActive: isActive,
     onClick: handleClick,
-    IconComponent: IconComponent
+    IconComponent: IconComponent,
+    onMouseEnter: handleMouseEnter
   }));
 };
 SidebarCollapsedMenuItem.propTypes = {
@@ -358,10 +889,11 @@ exports["default"] = void 0;
 var _react = _interopRequireDefault(__webpack_require__(/*! react */ "react"));
 var _slicedToArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/slicedToArray */ "../node_modules/@babel/runtime/helpers/slicedToArray.js"));
 var _element = __webpack_require__(/*! @wordpress/element */ "../node_modules/@wordpress/element/build-module/index.js");
+var _ui = __webpack_require__(/*! @elementor/ui */ "@elementor/ui");
 var _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ "../node_modules/prop-types/index.js"));
 var _menuActiveStateResolver = _interopRequireDefault(__webpack_require__(/*! ../../classes/menu-active-state-resolver */ "../modules/editor-one/assets/js/sidebar-navigation/classes/menu-active-state-resolver.js"));
 var _sidebarCollapsedMenuItem = _interopRequireDefault(__webpack_require__(/*! ./sidebar-collapsed-menu-item */ "../modules/editor-one/assets/js/sidebar-navigation/components/collapsed-menu/sidebar-collapsed-menu-item.js"));
-var _styledComponents = __webpack_require__(/*! ./styled-components */ "../modules/editor-one/assets/js/sidebar-navigation/components/collapsed-menu/styled-components.js");
+var _shared = __webpack_require__(/*! ../shared */ "../modules/editor-one/assets/js/sidebar-navigation/components/shared/index.js");
 var SidebarCollapsedMenu = function SidebarCollapsedMenu(_ref) {
   var menuItems = _ref.menuItems,
     level4Groups = _ref.level4Groups,
@@ -390,10 +922,16 @@ var SidebarCollapsedMenu = function SidebarCollapsedMenu(_ref) {
   var handleClosePopover = (0, _element.useCallback)(function () {
     setOpenPopoverSlug(null);
   }, []);
-  return /*#__PURE__*/_react.default.createElement(_styledComponents.CollapsedMenuContainer, {
+  return /*#__PURE__*/_react.default.createElement(_shared.MenuList, {
+    isCollapsed: true,
     onMouseLeave: handleClosePopover
   }, menuItems.map(function (item) {
-    return /*#__PURE__*/_react.default.createElement(_sidebarCollapsedMenuItem.default, {
+    return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, item.has_divider_before && /*#__PURE__*/_react.default.createElement(_ui.Divider, {
+      key: "divider-".concat(item.slug),
+      sx: {
+        my: 1
+      }
+    }), /*#__PURE__*/_react.default.createElement(_sidebarCollapsedMenuItem.default, {
       key: item.slug,
       item: item,
       isActive: activeStateResolver.isMenuActive(item),
@@ -402,7 +940,7 @@ var SidebarCollapsedMenu = function SidebarCollapsedMenu(_ref) {
       isPopoverOpen: openPopoverSlug === item.slug,
       onOpenPopover: handleOpenPopover,
       onClosePopover: handleClosePopover
-    });
+    }));
   }));
 };
 SidebarCollapsedMenu.propTypes = {
@@ -412,106 +950,6 @@ SidebarCollapsedMenu.propTypes = {
   activeChildSlug: _propTypes.default.string.isRequired
 };
 var _default = exports["default"] = SidebarCollapsedMenu;
-
-/***/ }),
-
-/***/ "../modules/editor-one/assets/js/sidebar-navigation/components/collapsed-menu/styled-components.js":
-/*!*********************************************************************************************************!*\
-  !*** ../modules/editor-one/assets/js/sidebar-navigation/components/collapsed-menu/styled-components.js ***!
-  \*********************************************************************************************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.StyledPopover = exports.PopoverTitle = exports.PopoverListItemButton = exports.PopoverContent = exports.CollapsedMenuItemContainer = exports.CollapsedMenuContainer = exports.CollapsedIconButton = exports.CollapsedHeaderContainer = void 0;
-var _ui = __webpack_require__(/*! @elementor/ui */ "@elementor/ui");
-var CollapsedMenuContainer = exports.CollapsedMenuContainer = (0, _ui.styled)(_ui.Box)(function (_ref) {
-  var theme = _ref.theme;
-  return {
-    paddingLeft: theme.spacing(1),
-    paddingRight: theme.spacing(1),
-    paddingTop: theme.spacing(2),
-    paddingBottom: theme.spacing(2)
-  };
-});
-var CollapsedMenuItemContainer = exports.CollapsedMenuItemContainer = (0, _ui.styled)(_ui.Box)(function (_ref2) {
-  var theme = _ref2.theme;
-  return {
-    display: 'flex',
-    justifyContent: 'center',
-    marginBottom: theme.spacing(0.5)
-  };
-});
-var CollapsedIconButton = exports.CollapsedIconButton = (0, _ui.styled)(_ui.IconButton, {
-  shouldForwardProp: function shouldForwardProp(prop) {
-    return prop !== 'isHighlighted';
-  }
-})(function (_ref3) {
-  var theme = _ref3.theme,
-    isHighlighted = _ref3.isHighlighted;
-  return {
-    width: 40,
-    height: 40,
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: isHighlighted ? theme.palette.action.selected : 'transparent',
-    color: theme.palette.text.primary,
-    '&:hover': {
-      backgroundColor: theme.palette.action.hover
-    },
-    '& svg': {
-      fontSize: 20
-    }
-  };
-});
-var PopoverTitle = exports.PopoverTitle = (0, _ui.styled)(_ui.Typography)(function (_ref4) {
-  var theme = _ref4.theme;
-  return {
-    color: theme.palette.text.tertiary
-  };
-});
-var PopoverContent = exports.PopoverContent = (0, _ui.styled)(_ui.Box)(function (_ref5) {
-  var theme = _ref5.theme;
-  return {
-    paddingTop: theme.spacing(1),
-    paddingBottom: theme.spacing(1)
-  };
-});
-var CollapsedHeaderContainer = exports.CollapsedHeaderContainer = (0, _ui.styled)(_ui.Box)(function (_ref6) {
-  var theme = _ref6.theme;
-  return {
-    position: 'relative',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 80,
-    borderBottom: "1px solid ".concat(theme.palette.divider)
-  };
-});
-var PopoverListItemButton = exports.PopoverListItemButton = (0, _ui.styled)(_ui.ListItemButton)(function (_ref7) {
-  var theme = _ref7.theme;
-  return {
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2),
-    paddingTop: theme.spacing(0.5),
-    paddingBottom: theme.spacing(0.5)
-  };
-});
-var StyledPopover = exports.StyledPopover = (0, _ui.styled)(_ui.Popover)(function (_ref8) {
-  var theme = _ref8.theme;
-  return {
-    pointerEvents: 'none',
-    '& .MuiPaper-root': {
-      marginLeft: theme.spacing(1),
-      minWidth: 180,
-      borderRadius: theme.shape.borderRadius,
-      pointerEvents: 'auto'
-    }
-  };
-});
 
 /***/ }),
 
@@ -721,7 +1159,7 @@ Object.defineProperty(exports, "__esModule", ({
 }));
 exports["default"] = void 0;
 var _react = _interopRequireDefault(__webpack_require__(/*! react */ "react"));
-var _ChevronLeftIcon = _interopRequireDefault(__webpack_require__(/*! @elementor/icons/ChevronLeftIcon */ "@elementor/icons/ChevronLeftIcon"));
+var _ChevronRightIcon = _interopRequireDefault(__webpack_require__(/*! @elementor/icons/ChevronRightIcon */ "@elementor/icons/ChevronRightIcon"));
 var _SearchIcon = _interopRequireDefault(__webpack_require__(/*! @elementor/icons/SearchIcon */ "@elementor/icons/SearchIcon"));
 var _editor = _interopRequireDefault(__webpack_require__(/*! ../icons/editor */ "../modules/editor-one/assets/js/sidebar-navigation/components/icons/editor.js"));
 var _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ "../node_modules/prop-types/index.js"));
@@ -739,8 +1177,9 @@ var SidebarHeader = function SidebarHeader(_ref) {
     onClick: finderAction
   }, /*#__PURE__*/_react.default.createElement(_SearchIcon.default, null))), /*#__PURE__*/_react.default.createElement(_shared.CollapseButton, {
     onClick: onCollapse,
-    size: "small"
-  }, /*#__PURE__*/_react.default.createElement(_ChevronLeftIcon.default, null)));
+    size: "small",
+    expanded: true
+  }, /*#__PURE__*/_react.default.createElement(_ChevronRightIcon.default, null)));
 };
 SidebarHeader.propTypes = {
   siteTitle: _propTypes.default.string.isRequired,
@@ -768,13 +1207,12 @@ var HeaderContainer = exports.HeaderContainer = (0, _ui.styled)(_ui.Box)(functio
   var theme = _ref.theme;
   return {
     position: 'relative',
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2),
+    marginLeft: theme.spacing(2),
+    marginRight: theme.spacing(2),
     height: 80,
     borderBottom: "1px solid ".concat(theme.palette.divider),
     display: 'flex',
-    alignItems: 'center',
-    marginBottom: theme.spacing(1)
+    alignItems: 'center'
   };
 });
 var HeaderContent = exports.HeaderContent = (0, _ui.styled)(_ui.Box)(function (_ref2) {
@@ -797,6 +1235,78 @@ var SearchButton = exports.SearchButton = (0, _ui.styled)(_ui.IconButton)(functi
     color: theme.palette.action.active
   };
 });
+
+/***/ }),
+
+/***/ "../modules/editor-one/assets/js/sidebar-navigation/components/hooks/use-admin-menu-offset.js":
+/*!****************************************************************************************************!*\
+  !*** ../modules/editor-one/assets/js/sidebar-navigation/components/hooks/use-admin-menu-offset.js ***!
+  \****************************************************************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "../node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports.useAdminMenuOffset = void 0;
+var _element = __webpack_require__(/*! @wordpress/element */ "../node_modules/@wordpress/element/build-module/index.js");
+var _isRtl = _interopRequireDefault(__webpack_require__(/*! ../../../shared/is-rtl */ "../modules/editor-one/assets/js/shared/is-rtl.js"));
+var ADMIN_MENU_WRAP_ID = 'adminmenuwrap';
+var WPCONTENT_ID = 'wpcontent';
+var EDITOR_ONE_TOP_BAR_ID = 'editor-one-top-bar';
+var WPADMINBAR_ID = 'wpadminbar';
+var INITIALIZED_DATA_ATTR = 'data-editor-one-offset-initialized';
+var WPFOOTER_ID = 'wpfooter';
+var WPBODY_CONTENT_ID = 'wpbody-content';
+var useAdminMenuOffset = exports.useAdminMenuOffset = function useAdminMenuOffset() {
+  var cleanupRef = (0, _element.useRef)(null);
+  (0, _element.useEffect)(function () {
+    var adminMenuWrap = document.getElementById(ADMIN_MENU_WRAP_ID);
+    var wpcontent = document.getElementById(WPCONTENT_ID);
+    if (!adminMenuWrap || !wpcontent || wpcontent.hasAttribute(INITIALIZED_DATA_ATTR)) {
+      return;
+    }
+    var wpfooter = document.getElementById(WPFOOTER_ID);
+    var wpbodyContent = document.getElementById(WPBODY_CONTENT_ID);
+    wpbodyContent === null || wpbodyContent === void 0 || wpbodyContent.insertBefore(wpfooter, wpbodyContent.querySelector(':scope > .clear'));
+    var wpAdminBar = document.getElementById(WPADMINBAR_ID);
+    var updateOffset = function updateOffset() {
+      var _document$getElementB, _wpAdminBar$clientHei, _topBarHeader$clientH;
+      var topBarHeader = (_document$getElementB = document.getElementById(EDITOR_ONE_TOP_BAR_ID)) === null || _document$getElementB === void 0 ? void 0 : _document$getElementB.querySelector(':scope > header');
+      var isRtlLanguage = (0, _isRtl.default)();
+      var rect = adminMenuWrap.getBoundingClientRect();
+      var offset = isRtlLanguage ? document.documentElement.clientWidth - rect.left : rect.right;
+      var adminBarHeightPx = "".concat((_wpAdminBar$clientHei = wpAdminBar === null || wpAdminBar === void 0 ? void 0 : wpAdminBar.clientHeight) !== null && _wpAdminBar$clientHei !== void 0 ? _wpAdminBar$clientHei : 0, "px");
+      var topBarHeaderHeightPx = "".concat((_topBarHeader$clientH = topBarHeader === null || topBarHeader === void 0 ? void 0 : topBarHeader.clientHeight) !== null && _topBarHeader$clientH !== void 0 ? _topBarHeader$clientH : 0, "px");
+      wpcontent.style.setProperty('--editor-one-sidebar-left-offset', "".concat(offset, "px"));
+      wpcontent.style.setProperty('--e-admin-bar-height', adminBarHeightPx);
+      wpcontent.style.setProperty('--e-top-bar-header-height', topBarHeaderHeightPx);
+    };
+    updateOffset();
+    var resizeObserver = new ResizeObserver(updateOffset);
+    resizeObserver.observe(wpcontent);
+    var topBar = document.getElementById(EDITOR_ONE_TOP_BAR_ID);
+    if (topBar) {
+      resizeObserver.observe(topBar);
+    }
+    window.addEventListener('resize', updateOffset);
+    wpcontent.setAttribute(INITIALIZED_DATA_ATTR, 'true');
+    cleanupRef.current = function () {
+      resizeObserver.disconnect();
+      window.removeEventListener('resize', updateOffset);
+      wpcontent.removeAttribute(INITIALIZED_DATA_ATTR);
+    };
+    return function () {
+      if (cleanupRef.current) {
+        cleanupRef.current();
+        cleanupRef.current = null;
+      }
+    };
+  }, []);
+};
 
 /***/ }),
 
@@ -1046,10 +1556,6 @@ var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/inte
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-var _exportNames = {
-  SidebarMenu: true,
-  SidebarMenuItem: true
-};
 Object.defineProperty(exports, "SidebarMenu", ({
   enumerable: true,
   get: function get() {
@@ -1064,18 +1570,6 @@ Object.defineProperty(exports, "SidebarMenuItem", ({
 }));
 var _sidebarMenu = _interopRequireDefault(__webpack_require__(/*! ./sidebar-menu */ "../modules/editor-one/assets/js/sidebar-navigation/components/menu/sidebar-menu.js"));
 var _sidebarMenuItem = _interopRequireDefault(__webpack_require__(/*! ./sidebar-menu-item */ "../modules/editor-one/assets/js/sidebar-navigation/components/menu/sidebar-menu-item.js"));
-var _styledComponents = __webpack_require__(/*! ./styled-components */ "../modules/editor-one/assets/js/sidebar-navigation/components/menu/styled-components.js");
-Object.keys(_styledComponents).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
-  if (key in exports && exports[key] === _styledComponents[key]) return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _styledComponents[key];
-    }
-  });
-});
 
 /***/ }),
 
@@ -1097,85 +1591,92 @@ var _react = _interopRequireDefault(__webpack_require__(/*! react */ "react"));
 var _slicedToArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/slicedToArray */ "../node_modules/@babel/runtime/helpers/slicedToArray.js"));
 var _element = __webpack_require__(/*! @wordpress/element */ "../node_modules/@wordpress/element/build-module/index.js");
 var _ui = __webpack_require__(/*! @elementor/ui */ "@elementor/ui");
+var _editorOneEvents = __webpack_require__(/*! elementor-editor-utils/editor-one-events */ "../assets/dev/js/editor/utils/editor-one-events.js");
 var _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ "../node_modules/prop-types/index.js"));
 var _shared = __webpack_require__(/*! ../shared */ "../modules/editor-one/assets/js/sidebar-navigation/components/shared/index.js");
-var _styledComponents = __webpack_require__(/*! ./styled-components */ "../modules/editor-one/assets/js/sidebar-navigation/components/menu/styled-components.js");
 var STORAGE_KEY_PREFIX = 'elementor_sidebar_menu_expanded_v2_';
-var getStorageKey = function getStorageKey(slug) {
-  return "".concat(STORAGE_KEY_PREFIX).concat(slug);
-};
-var shouldExpandByDefault = function shouldExpandByDefault(children, activeChildSlug) {
-  if (!children || !children.length) {
-    return false;
-  }
-  return children.some(function (child) {
-    return child.slug === activeChildSlug;
-  });
-};
-var getInitialExpandedState = function getInitialExpandedState(slug, hasChildren, children, activeChildSlug) {
-  if (!hasChildren) {
-    return false;
-  }
-  var isExpandedByDefault = shouldExpandByDefault(children, activeChildSlug);
-  if (isExpandedByDefault) {
-    localStorage.setItem(getStorageKey(slug), String(true));
-    return true;
-  }
-  var stored = localStorage.getItem(getStorageKey(slug));
-  return 'true' === stored;
-};
 var SidebarMenuItem = function SidebarMenuItem(_ref) {
   var item = _ref.item,
     isActive = _ref.isActive,
     children = _ref.children,
     activeChildSlug = _ref.activeChildSlug;
-  var hasChildren = children && children.length > 0;
+  var hasChildren = !!(children !== null && children !== void 0 && children.length);
+  var IconComponent = _shared.ICON_MAP[item.icon] || _shared.DEFAULT_ICON;
   var _useState = (0, _element.useState)(function () {
-      return getInitialExpandedState(item.slug, hasChildren, children, activeChildSlug);
+      if (!hasChildren) {
+        return false;
+      }
+      var storageKey = "".concat(STORAGE_KEY_PREFIX).concat(item.slug);
+      var shouldExpand = children.some(function (child) {
+        return child.slug === activeChildSlug;
+      });
+      if (shouldExpand) {
+        localStorage.setItem(storageKey, 'true');
+        return true;
+      }
+      var stored = localStorage.getItem(storageKey);
+      if (null === stored) {
+        return true;
+      }
+      return 'true' === stored;
     }),
     _useState2 = (0, _slicedToArray2.default)(_useState, 2),
     isExpanded = _useState2[0],
     setIsExpanded = _useState2[1];
-  var IconComponent = _shared.ICON_MAP[item.icon] || _shared.DEFAULT_ICON;
   var handleClick = (0, _element.useCallback)(function () {
     if (hasChildren) {
       var newState = !isExpanded;
       setIsExpanded(newState);
-      localStorage.setItem(getStorageKey(item.slug), String(newState));
-    } else {
-      window.location.href = item.url;
+      localStorage.setItem("".concat(STORAGE_KEY_PREFIX).concat(item.slug), String(newState));
+      _editorOneEvents.EditorOneEventManager.sendSidebarMenuGroupToggled({
+        eventId: item.event_id,
+        isExpanded: newState
+      });
+      return;
     }
-  }, [hasChildren, isExpanded, item.slug, item.url]);
+    _editorOneEvents.EditorOneEventManager.sendSidebarMenuItemClicked({
+      eventId: item.event_id
+    });
+    window.location.href = item.url;
+  }, [hasChildren, isExpanded, item.event_id, item.slug, item.url]);
+  var handleChildClick = (0, _element.useCallback)(function (childItem) {
+    _editorOneEvents.EditorOneEventManager.sendSidebarMenuItemClicked({
+      eventId: childItem.event_id,
+      groupEventId: item.event_id
+    });
+  }, [item.event_id]);
   return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_ui.ListItem, {
     disablePadding: true,
     dense: true,
     disableGutters: true
-  }, /*#__PURE__*/_react.default.createElement(_styledComponents.MenuItemButton, {
+  }, /*#__PURE__*/_react.default.createElement(_shared.MenuItemButton, {
     onClick: handleClick,
     selected: isActive && !hasChildren
-  }, /*#__PURE__*/_react.default.createElement(_styledComponents.MenuIcon, null, /*#__PURE__*/_react.default.createElement(IconComponent, null)), /*#__PURE__*/_react.default.createElement(_ui.ListItemText, {
+  }, /*#__PURE__*/_react.default.createElement(_shared.MenuIcon, null, /*#__PURE__*/_react.default.createElement(IconComponent, null)), /*#__PURE__*/_react.default.createElement(_ui.ListItemText, {
     primary: item.label,
     primaryTypographyProps: {
       variant: 'body2'
     }
-  }), hasChildren && /*#__PURE__*/_react.default.createElement(_styledComponents.ExpandIcon, {
+  }), hasChildren && /*#__PURE__*/_react.default.createElement(_shared.ExpandIcon, {
     expanded: isExpanded
   }))), hasChildren && /*#__PURE__*/_react.default.createElement(_ui.Collapse, {
     in: isExpanded,
     timeout: "auto",
     unmountOnExit: true
   }, /*#__PURE__*/_react.default.createElement(_ui.List, {
-    disablePadding: true,
-    disableGutters: true
+    disablePadding: true
   }, children.map(function (childItem) {
-    return /*#__PURE__*/_react.default.createElement(_styledComponents.ChildListItem, {
+    return /*#__PURE__*/_react.default.createElement(_shared.ChildListItem, {
       key: childItem.slug,
       disablePadding: true,
       dense: true,
       disableGutters: true
-    }, /*#__PURE__*/_react.default.createElement(_styledComponents.ChildMenuItemButton, {
+    }, /*#__PURE__*/_react.default.createElement(_shared.ChildMenuItemButton, {
       component: "a",
       href: childItem.url,
+      onClick: function onClick() {
+        return handleChildClick(childItem);
+      },
       selected: childItem.slug === activeChildSlug
     }, /*#__PURE__*/_react.default.createElement(_ui.ListItemText, {
       primary: childItem.label,
@@ -1206,16 +1707,19 @@ var _default = exports["default"] = SidebarMenuItem;
 
 
 var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "../node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+var _typeof = __webpack_require__(/*! @babel/runtime/helpers/typeof */ "../node_modules/@babel/runtime/helpers/typeof.js");
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
 exports["default"] = void 0;
-var _react = _interopRequireDefault(__webpack_require__(/*! react */ "react"));
+var _react = _interopRequireWildcard(__webpack_require__(/*! react */ "react"));
 var _element = __webpack_require__(/*! @wordpress/element */ "../node_modules/@wordpress/element/build-module/index.js");
+var _ui = __webpack_require__(/*! @elementor/ui */ "@elementor/ui");
 var _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ "../node_modules/prop-types/index.js"));
 var _menuActiveStateResolver = _interopRequireDefault(__webpack_require__(/*! ../../classes/menu-active-state-resolver */ "../modules/editor-one/assets/js/sidebar-navigation/classes/menu-active-state-resolver.js"));
 var _sidebarMenuItem = _interopRequireDefault(__webpack_require__(/*! ./sidebar-menu-item */ "../modules/editor-one/assets/js/sidebar-navigation/components/menu/sidebar-menu-item.js"));
-var _styledComponents = __webpack_require__(/*! ./styled-components */ "../modules/editor-one/assets/js/sidebar-navigation/components/menu/styled-components.js");
+var _shared = __webpack_require__(/*! ../shared */ "../modules/editor-one/assets/js/sidebar-navigation/components/shared/index.js");
+function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != _typeof(e) && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
 var SidebarMenu = function SidebarMenu(_ref) {
   var menuItems = _ref.menuItems,
     level4Groups = _ref.level4Groups,
@@ -1234,14 +1738,18 @@ var SidebarMenu = function SidebarMenu(_ref) {
     }
     return group.items;
   };
-  return /*#__PURE__*/_react.default.createElement(_styledComponents.MenuList, null, menuItems.map(function (item) {
-    return /*#__PURE__*/_react.default.createElement(_sidebarMenuItem.default, {
-      key: item.slug,
+  return /*#__PURE__*/_react.default.createElement(_shared.MenuList, null, menuItems.map(function (item) {
+    return /*#__PURE__*/_react.default.createElement(_react.Fragment, {
+      key: item.slug
+    }, item.has_divider_before && /*#__PURE__*/_react.default.createElement(_ui.Divider, {
+      sx: {
+        my: 1
+      }
+    }), /*#__PURE__*/_react.default.createElement(_sidebarMenuItem.default, {
       item: item,
       isActive: activeStateResolver.isMenuActive(item),
-      children: getChildren(item),
       activeChildSlug: activeChildSlug
-    });
+    }, getChildren(item)));
   }));
 };
 SidebarMenu.propTypes = {
@@ -1251,76 +1759,6 @@ SidebarMenu.propTypes = {
   activeChildSlug: _propTypes.default.string.isRequired
 };
 var _default = exports["default"] = SidebarMenu;
-
-/***/ }),
-
-/***/ "../modules/editor-one/assets/js/sidebar-navigation/components/menu/styled-components.js":
-/*!***********************************************************************************************!*\
-  !*** ../modules/editor-one/assets/js/sidebar-navigation/components/menu/styled-components.js ***!
-  \***********************************************************************************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
-
-"use strict";
-
-
-var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "../node_modules/@babel/runtime/helpers/interopRequireDefault.js");
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.MenuList = exports.MenuItemButton = exports.MenuIcon = exports.ExpandIcon = exports.ChildMenuItemButton = exports.ChildListItem = void 0;
-var _ui = __webpack_require__(/*! @elementor/ui */ "@elementor/ui");
-var _ChevronDownSmallIcon = _interopRequireDefault(__webpack_require__(/*! @elementor/icons/ChevronDownSmallIcon */ "@elementor/icons/ChevronDownSmallIcon"));
-var MenuList = exports.MenuList = (0, _ui.styled)(_ui.List)(function (_ref) {
-  var theme = _ref.theme;
-  return {
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2)
-  };
-});
-var MenuItemButton = exports.MenuItemButton = (0, _ui.styled)(_ui.ListItemButton)(function (_ref2) {
-  var theme = _ref2.theme;
-  return {
-    paddingLeft: theme.spacing(1),
-    paddingRight: theme.spacing(1),
-    marginBottom: 0,
-    paddingBottom: theme.spacing(0.5),
-    whiteSpace: 'nowrap'
-  };
-});
-var MenuIcon = exports.MenuIcon = (0, _ui.styled)(_ui.ListItemIcon)(function (_ref3) {
-  var theme = _ref3.theme;
-  return {
-    minWidth: 28,
-    color: theme.palette.text.primary,
-    '& svg': {
-      fontSize: 20
-    }
-  };
-});
-var ChildMenuItemButton = exports.ChildMenuItemButton = (0, _ui.styled)(_ui.ListItemButton)(function (_ref4) {
-  var theme = _ref4.theme;
-  return {
-    paddingLeft: theme.spacing(6),
-    paddingRight: theme.spacing(2),
-    minHeight: 32,
-    whiteSpace: 'nowrap'
-  };
-});
-var ChildListItem = exports.ChildListItem = (0, _ui.styled)(_ui.ListItem)({
-  maxHeight: 32
-});
-var ExpandIcon = exports.ExpandIcon = (0, _ui.styled)(_ChevronDownSmallIcon.default, {
-  shouldForwardProp: function shouldForwardProp(prop) {
-    return prop !== 'expanded';
-  }
-})(function (_ref5) {
-  var expanded = _ref5.expanded;
-  return {
-    fontSize: 20,
-    transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
-    transition: 'transform 0.2s'
-  };
-});
 
 /***/ }),
 
@@ -1340,21 +1778,24 @@ Object.defineProperty(exports, "__esModule", ({
 exports.ICON_MAP = exports.DEFAULT_ICON = void 0;
 var _AdjustmentsIcon = _interopRequireDefault(__webpack_require__(/*! @elementor/icons/AdjustmentsIcon */ "@elementor/icons/AdjustmentsIcon"));
 var _FolderIcon = _interopRequireDefault(__webpack_require__(/*! @elementor/icons/FolderIcon */ "@elementor/icons/FolderIcon"));
+var _RocketIcon = _interopRequireDefault(__webpack_require__(/*! @elementor/icons/RocketIcon */ "@elementor/icons/RocketIcon"));
 var _HomeIcon = _interopRequireDefault(__webpack_require__(/*! @elementor/icons/HomeIcon */ "@elementor/icons/HomeIcon"));
-var _InfoCircleIcon = _interopRequireDefault(__webpack_require__(/*! @elementor/icons/InfoCircleIcon */ "@elementor/icons/InfoCircleIcon"));
 var _SendIcon = _interopRequireDefault(__webpack_require__(/*! @elementor/icons/SendIcon */ "@elementor/icons/SendIcon"));
 var _SettingsIcon = _interopRequireDefault(__webpack_require__(/*! @elementor/icons/SettingsIcon */ "@elementor/icons/SettingsIcon"));
 var _UsersIcon = _interopRequireDefault(__webpack_require__(/*! @elementor/icons/UsersIcon */ "@elementor/icons/UsersIcon"));
+var _PlugIcon = _interopRequireDefault(__webpack_require__(/*! @elementor/icons/PlugIcon */ "@elementor/icons/PlugIcon"));
 var _tool = _interopRequireDefault(__webpack_require__(/*! ../icons/tool */ "../modules/editor-one/assets/js/sidebar-navigation/components/icons/tool.js"));
+var _FileSettingsIcon = _interopRequireDefault(__webpack_require__(/*! @elementor/icons/FileSettingsIcon */ "@elementor/icons/FileSettingsIcon"));
 var ICON_MAP = exports.ICON_MAP = {
   adjustments: _AdjustmentsIcon.default,
   folder: _FolderIcon.default,
-  home: _HomeIcon.default,
-  'info-circle': _InfoCircleIcon.default,
+  home: _RocketIcon.default,
   send: _SendIcon.default,
   settings: _SettingsIcon.default,
   tool: _tool.default,
-  users: _UsersIcon.default
+  users: _UsersIcon.default,
+  extension: _PlugIcon.default,
+  'file-settings': _FileSettingsIcon.default
 };
 var DEFAULT_ICON = exports.DEFAULT_ICON = _HomeIcon.default;
 
@@ -1406,11 +1847,14 @@ Object.keys(_styledComponents).forEach(function (key) {
 "use strict";
 
 
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "../node_modules/@babel/runtime/helpers/interopRequireDefault.js");
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.SiteIconBox = exports.ScrollableContent = exports.NavContainer = exports.CollapseButton = void 0;
+exports.StyledPopover = exports.SiteIconBox = exports.ScrollableContent = exports.PopoverTitle = exports.PopoverListItemButton = exports.PopoverContent = exports.NavContainer = exports.MenuList = exports.MenuItemButton = exports.MenuIcon = exports.ExpandIcon = exports.CollapsedMenuItemContainer = exports.CollapsedIconButton = exports.CollapsedHeaderContainer = exports.CollapseButton = exports.ChildMenuItemButton = exports.ChildListItem = void 0;
 var _ui = __webpack_require__(/*! @elementor/ui */ "@elementor/ui");
+var _ChevronDownSmallIcon = _interopRequireDefault(__webpack_require__(/*! @elementor/icons/ChevronDownSmallIcon */ "@elementor/icons/ChevronDownSmallIcon"));
+var _isRtl = _interopRequireDefault(__webpack_require__(/*! ../../../shared/is-rtl */ "../modules/editor-one/assets/js/shared/is-rtl.js"));
 var NavContainer = exports.NavContainer = (0, _ui.styled)(_ui.Box)(function (_ref) {
   var theme = _ref.theme;
   return {
@@ -1438,11 +1882,25 @@ var SiteIconBox = exports.SiteIconBox = (0, _ui.styled)(_ui.Box)(function (_ref2
     }
   };
 });
-var CollapseButton = exports.CollapseButton = (0, _ui.styled)(_ui.IconButton)(function (_ref3) {
-  var theme = _ref3.theme;
+var CollapseButton = exports.CollapseButton = (0, _ui.styled)(_ui.IconButton, {
+  shouldForwardProp: function shouldForwardProp(prop) {
+    return prop !== 'expanded';
+  }
+})(function (_ref3) {
+  var theme = _ref3.theme,
+    expanded = _ref3.expanded;
+  var isRtlLanguage = (0, _isRtl.default)();
+  var transform = 'none';
+  if (expanded && isRtlLanguage) {
+    transform = 'rotate(180deg) scaleX(-1)';
+  } else if (expanded) {
+    transform = 'rotate(180deg)';
+  } else if (isRtlLanguage) {
+    transform = 'scaleX(-1)';
+  }
   return {
     position: 'absolute',
-    insetInlineEnd: -12,
+    insetInlineEnd: -28,
     bottom: -12,
     width: 24,
     height: 24,
@@ -1454,7 +1912,8 @@ var CollapseButton = exports.CollapseButton = (0, _ui.styled)(_ui.IconButton)(fu
       backgroundColor: theme.palette.background.paper
     },
     '& svg': {
-      fontSize: 16
+      fontSize: 16,
+      transform: transform
     }
   };
 });
@@ -1462,6 +1921,142 @@ var ScrollableContent = exports.ScrollableContent = (0, _ui.styled)(_ui.Box)({
   flex: 1,
   overflowY: 'auto',
   overflowX: 'hidden'
+});
+var MenuList = exports.MenuList = (0, _ui.styled)(_ui.List)(function (_ref4) {
+  var theme = _ref4.theme;
+  return {
+    padding: theme.spacing(2)
+  };
+});
+var MenuItemButton = exports.MenuItemButton = (0, _ui.styled)(_ui.ListItemButton)(function (_ref5) {
+  var theme = _ref5.theme;
+  return {
+    paddingLeft: theme.spacing(1),
+    paddingRight: theme.spacing(1),
+    marginBottom: 0,
+    paddingBottom: theme.spacing(0.5),
+    whiteSpace: 'nowrap',
+    justifyContent: 'center',
+    borderRadius: 4
+  };
+});
+var MenuIcon = exports.MenuIcon = (0, _ui.styled)(_ui.ListItemIcon)(function (_ref6) {
+  var theme = _ref6.theme;
+  return {
+    minWidth: 'auto',
+    color: theme.palette.text.primary,
+    margin: 0,
+    display: 'flex',
+    justifyContent: 'center',
+    '& svg': {
+      fontSize: 20
+    }
+  };
+});
+var ChildMenuItemButton = exports.ChildMenuItemButton = (0, _ui.styled)(_ui.ListItemButton)(function (_ref7) {
+  var theme = _ref7.theme;
+  return {
+    paddingLeft: theme.spacing(6),
+    paddingRight: theme.spacing(2),
+    minHeight: 32,
+    whiteSpace: 'nowrap',
+    borderRadius: 4
+  };
+});
+var ChildListItem = exports.ChildListItem = (0, _ui.styled)(_ui.ListItem)({
+  maxHeight: 32
+});
+var ExpandIcon = exports.ExpandIcon = (0, _ui.styled)(_ChevronDownSmallIcon.default, {
+  shouldForwardProp: function shouldForwardProp(prop) {
+    return prop !== 'expanded';
+  }
+})(function (_ref8) {
+  var expanded = _ref8.expanded;
+  return {
+    fontSize: 20,
+    transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
+    transition: 'transform 0.2s'
+  };
+});
+var CollapsedMenuItemContainer = exports.CollapsedMenuItemContainer = (0, _ui.styled)(_ui.Box)(function (_ref9) {
+  var theme = _ref9.theme;
+  return {
+    display: 'flex',
+    justifyContent: 'center',
+    marginBottom: theme.spacing(0.5)
+  };
+});
+var CollapsedIconButton = exports.CollapsedIconButton = (0, _ui.styled)(_ui.IconButton, {
+  shouldForwardProp: function shouldForwardProp(prop) {
+    return prop !== 'isHighlighted';
+  }
+})(function (_ref0) {
+  var theme = _ref0.theme,
+    isHighlighted = _ref0.isHighlighted;
+  return {
+    width: 36,
+    height: 36,
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: isHighlighted ? theme.palette.action.selected : 'transparent',
+    color: theme.palette.text.primary,
+    '&:hover': {
+      backgroundColor: theme.palette.action.hover
+    },
+    '& svg': {
+      fontSize: 20
+    }
+  };
+});
+var PopoverTitle = exports.PopoverTitle = (0, _ui.styled)(_ui.ListSubheader)(function (_ref1) {
+  var theme = _ref1.theme;
+  return {
+    color: theme.palette.text.tertiary,
+    fontSize: 12,
+    fontWeight: 400,
+    height: 28
+  };
+});
+var PopoverContent = exports.PopoverContent = (0, _ui.styled)(_ui.Box)(function (_ref10) {
+  var theme = _ref10.theme;
+  return {
+    paddingTop: theme.spacing(1),
+    paddingBottom: theme.spacing(1)
+  };
+});
+var CollapsedHeaderContainer = exports.CollapsedHeaderContainer = (0, _ui.styled)(_ui.Box)(function (_ref11) {
+  var theme = _ref11.theme;
+  return {
+    position: 'relative',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 80,
+    marginLeft: theme.spacing(2),
+    marginRight: theme.spacing(2),
+    borderBottom: "1px solid ".concat(theme.palette.divider)
+  };
+});
+var PopoverListItemButton = exports.PopoverListItemButton = (0, _ui.styled)(_ui.ListItemButton)(function (_ref12) {
+  var theme = _ref12.theme;
+  return {
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
+    paddingTop: theme.spacing(0.5),
+    paddingBottom: theme.spacing(0.5),
+    borderRadius: 4
+  };
+});
+var StyledPopover = exports.StyledPopover = (0, _ui.styled)(_ui.Popover)(function (_ref13) {
+  var theme = _ref13.theme;
+  return {
+    pointerEvents: 'none',
+    '& .MuiPaper-root': {
+      marginLeft: theme.spacing(1),
+      minWidth: 180,
+      borderRadius: theme.shape.borderRadius,
+      pointerEvents: 'auto'
+    }
+  };
 });
 
 /***/ }),
@@ -1486,22 +2081,23 @@ var _ChevronRightIcon = _interopRequireDefault(__webpack_require__(/*! @elemento
 var _editor = _interopRequireDefault(__webpack_require__(/*! ./icons/editor */ "../modules/editor-one/assets/js/sidebar-navigation/components/icons/editor.js"));
 var _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ "../node_modules/prop-types/index.js"));
 var _collapsedMenu = __webpack_require__(/*! ./collapsed-menu */ "../modules/editor-one/assets/js/sidebar-navigation/components/collapsed-menu/index.js");
-var _styledComponents = __webpack_require__(/*! ./collapsed-menu/styled-components */ "../modules/editor-one/assets/js/sidebar-navigation/components/collapsed-menu/styled-components.js");
 var _cta = __webpack_require__(/*! ./cta */ "../modules/editor-one/assets/js/sidebar-navigation/components/cta/index.js");
 var _header = __webpack_require__(/*! ./header */ "../modules/editor-one/assets/js/sidebar-navigation/components/header/index.js");
 var _menu = __webpack_require__(/*! ./menu */ "../modules/editor-one/assets/js/sidebar-navigation/components/menu/index.js");
 var _shared = __webpack_require__(/*! ./shared */ "../modules/editor-one/assets/js/sidebar-navigation/components/shared/index.js");
 var _useSidebarCollapse2 = __webpack_require__(/*! ./hooks/use-sidebar-collapse */ "../modules/editor-one/assets/js/sidebar-navigation/components/hooks/use-sidebar-collapse.js");
+var _useAdminMenuOffset = __webpack_require__(/*! ./hooks/use-admin-menu-offset */ "../modules/editor-one/assets/js/sidebar-navigation/components/hooks/use-admin-menu-offset.js");
 var SidebarNavigation = function SidebarNavigation(_ref) {
   var config = _ref.config;
   var _useSidebarCollapse = (0, _useSidebarCollapse2.useSidebarCollapse)(),
     isCollapsed = _useSidebarCollapse.isCollapsed,
     toggleCollapse = _useSidebarCollapse.toggleCollapse;
+  (0, _useAdminMenuOffset.useAdminMenuOffset)();
   if (isCollapsed) {
     return /*#__PURE__*/_react.default.createElement(_shared.NavContainer, {
       component: "nav",
       collapsed: true
-    }, /*#__PURE__*/_react.default.createElement(_styledComponents.CollapsedHeaderContainer, null, /*#__PURE__*/_react.default.createElement(_shared.SiteIconBox, null, /*#__PURE__*/_react.default.createElement(_editor.default, null)), /*#__PURE__*/_react.default.createElement(_shared.CollapseButton, {
+    }, /*#__PURE__*/_react.default.createElement(_shared.CollapsedHeaderContainer, null, /*#__PURE__*/_react.default.createElement(_shared.SiteIconBox, null, /*#__PURE__*/_react.default.createElement(_editor.default, null)), /*#__PURE__*/_react.default.createElement(_shared.CollapseButton, {
       onClick: toggleCollapse,
       size: "small"
     }, /*#__PURE__*/_react.default.createElement(_ChevronRightIcon.default, null))), /*#__PURE__*/_react.default.createElement(_shared.ScrollableContent, null, /*#__PURE__*/_react.default.createElement(_collapsedMenu.SidebarCollapsedMenu, {
@@ -1599,6 +2195,25 @@ function _createClass(e, r, t) {
   }), e;
 }
 module.exports = _createClass, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "../node_modules/@babel/runtime/helpers/defineProperty.js":
+/*!****************************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/defineProperty.js ***!
+  \****************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var toPropertyKey = __webpack_require__(/*! ./toPropertyKey.js */ "../node_modules/@babel/runtime/helpers/toPropertyKey.js");
+function _defineProperty(e, r, t) {
+  return (r = toPropertyKey(r)) in e ? Object.defineProperty(e, r, {
+    value: t,
+    enumerable: !0,
+    configurable: !0,
+    writable: !0
+  }) : e[r] = t, e;
+}
+module.exports = _defineProperty, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ }),
 
@@ -5230,17 +5845,6 @@ module.exports = elementorV2.icons['ChevronDownSmallIcon'];
 
 /***/ }),
 
-/***/ "@elementor/icons/ChevronLeftIcon":
-/*!*******************************************************!*\
-  !*** external "elementorV2.icons['ChevronLeftIcon']" ***!
-  \*******************************************************/
-/***/ ((module) => {
-
-"use strict";
-module.exports = elementorV2.icons['ChevronLeftIcon'];
-
-/***/ }),
-
 /***/ "@elementor/icons/ChevronRightIcon":
 /*!********************************************************!*\
   !*** external "elementorV2.icons['ChevronRightIcon']" ***!
@@ -5249,6 +5853,17 @@ module.exports = elementorV2.icons['ChevronLeftIcon'];
 
 "use strict";
 module.exports = elementorV2.icons['ChevronRightIcon'];
+
+/***/ }),
+
+/***/ "@elementor/icons/FileSettingsIcon":
+/*!********************************************************!*\
+  !*** external "elementorV2.icons['FileSettingsIcon']" ***!
+  \********************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = elementorV2.icons['FileSettingsIcon'];
 
 /***/ }),
 
@@ -5274,14 +5889,25 @@ module.exports = elementorV2.icons['HomeIcon'];
 
 /***/ }),
 
-/***/ "@elementor/icons/InfoCircleIcon":
-/*!******************************************************!*\
-  !*** external "elementorV2.icons['InfoCircleIcon']" ***!
-  \******************************************************/
+/***/ "@elementor/icons/PlugIcon":
+/*!************************************************!*\
+  !*** external "elementorV2.icons['PlugIcon']" ***!
+  \************************************************/
 /***/ ((module) => {
 
 "use strict";
-module.exports = elementorV2.icons['InfoCircleIcon'];
+module.exports = elementorV2.icons['PlugIcon'];
+
+/***/ }),
+
+/***/ "@elementor/icons/RocketIcon":
+/*!**************************************************!*\
+  !*** external "elementorV2.icons['RocketIcon']" ***!
+  \**************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = elementorV2.icons['RocketIcon'];
 
 /***/ }),
 
@@ -5445,10 +6071,12 @@ var _react2 = _interopRequireDefault(__webpack_require__(/*! elementor-utils/rea
 var _ui = __webpack_require__(/*! @elementor/ui */ "@elementor/ui");
 var _index = _interopRequireDefault(__webpack_require__(/*! ./components/index */ "../modules/editor-one/assets/js/sidebar-navigation/components/index.js"));
 var _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ "../node_modules/prop-types/index.js"));
+var _isRtl = _interopRequireDefault(__webpack_require__(/*! ../shared/is-rtl */ "../modules/editor-one/assets/js/shared/is-rtl.js"));
 var App = function App(_ref) {
   var config = _ref.config;
+  var isRtlLanguage = (0, _isRtl.default)();
   return /*#__PURE__*/_react.default.createElement(_ui.DirectionProvider, {
-    rtl: config.isRTL
+    rtl: isRtlLanguage
   }, /*#__PURE__*/_react.default.createElement(_ui.LocalizationProvider, null, /*#__PURE__*/_react.default.createElement(_ui.ThemeProvider, {
     colorScheme: "light"
   }, /*#__PURE__*/_react.default.createElement(_index.default, {

@@ -26,7 +26,7 @@ __( 'Pages', 'elementor' );
 __( ', try again and if the problem persists contact ', 'elementor' );
 __( 'Support', 'elementor' );
 __( 'Unable to download the Website Template', 'elementor' );
-__( 'We couldn’t download the Website Template due to technical difficulty on our part. Try again in a few minutes and if the problem persists contact ', 'elementor' );
+__( 'We couldn’t download the Website Template due to technical difficulty on our part. Try again in a few minutes and if the problem persists contact', 'elementor' );
 __( 'Support', 'elementor' );
 __( 'Couldn’t access the file', 'elementor' );
 __( 'Seems like Elementor isn’t authorized to access relevant files for installing this Website Template. Contact your site host to get permission.', 'elementor' );
@@ -89,7 +89,7 @@ __( 'Learn More', 'elementor' );
 __( 'Export a Website Kit', 'elementor' );
 __( 'What’s a Website Kit?', 'elementor' );
 __( 'A Website Kit is a .zip file that contains all the parts of a complete site. It’s an easy way to get a site up and running quickly.', 'elementor' );
-__( ' Learn more about Website Kits', 'elementor' );
+__( 'Learn more about Website Kits', 'elementor' );
 __( 'How does exporting work?', 'elementor' );
 __( 'To turn your site into a Website Kit, select the templates, content, settings and plugins you want to include. Once it’s ready, you’ll get a .zip file that you can import to other sites.', 'elementor' );
 __( 'Learn More', 'elementor' );
@@ -100,6 +100,19 @@ __( 'Custom Post Type', 'elementor' );
 __( 'Click to select custom post types', 'elementor' );
 __( 'No custom post types in your site...', 'elementor' );
 __( 'Add the custom posts types to export. The latest 20 items from each type will be included.', 'elementor' );
+__( 'Version' ) } ${ cellLinkProps.text }` } <Icon className="eicon-editor-external-link" />
+		</InlineLink>
+	);
+
+	const getHeaders = () => {
+		if ( ! withHeader ) {
+			return [];
+		}
+
+		const headers = [ 'Plugin Name', 'Version' ];
+
+		if ( withStatus ) {
+			headers.splice( 1, 0, 'Status' );
 __( 'Previous', 'elementor' );
 __( 'Next', 'elementor' );
 __( 'Learn More', 'elementor' );
@@ -125,12 +138,9 @@ __( 'Heads up!', 'elementor' );
 __( 'Before applying a new template, we recommend backing up your site so you can roll back any undesired changes.', 'elementor' );
 __( 'Choose a file to import', 'elementor' );
 __( 'Drag & drop the .zip file with your website template', 'elementor' );
-__( 'Import from files' ) }
-						/>
-
-						{ dialog.isOpen &&
-							<Dialog
-								title={ __( 'Warning: JSON or ZIP files may be unsafe', 'elementor' );
+__( 'Or', 'elementor' );
+__( 'Import from files', 'elementor' );
+__( 'Warning: JSON or ZIP files may be unsafe', 'elementor' );
 __( 'Uploading JSON or ZIP files from unknown sources can be harmful and put your site at risk. For maximum safety, upload only JSON or ZIP files from trusted sources.', 'elementor' );
 __( 'Continue', 'elementor' );
 __( 'Cancel', 'elementor' );
@@ -161,19 +171,6 @@ __( 'You can find it in the My Website Templates tab.', 'elementor' );
 __( 'Once the download is complete, you can upload it to be used for other sites.', 'elementor' );
 __( 'Build sites faster with Website Templates.', 'elementor' );
 __( 'Is the automatic download not starting?', 'elementor' );
-__( 'Version' ) } ${ cellLinkProps.text }` } <Icon className="eicon-editor-external-link" />
-		</InlineLink>
-	);
-
-	const getHeaders = () => {
-		if ( ! withHeader ) {
-			return [];
-		}
-
-		const headers = [ 'Plugin Name', 'Version' ];
-
-		if ( withStatus ) {
-			headers.splice( 1, 0, 'Status' );
 __( 'Edit Template', 'elementor' );
 __( 'Imported', 'elementor' );
 __( 'Existing', 'elementor' );
@@ -183,10 +180,10 @@ __( 'Is your Elementor Pro ready?', 'elementor' );
 __( 'If you’ve purchased, installed & activated Elementor Pro, we can continue importing all the parts of this site.', 'elementor' );
 __( 'Yes', 'elementor' );
 __( 'Not yet', 'elementor' );
-__( 'Previous', 'elementor' );
-__( 'Next', 'elementor' );
 __( 'Plugins to add:', 'elementor' );
 __( 'Missing Required Plugins:', 'elementor' );
+__( 'Previous', 'elementor' );
+__( 'Next', 'elementor' );
 __( 'Plugins you already have:', 'elementor' );
 __( 'Previous', 'elementor' );
 __( 'Import', 'elementor' );
