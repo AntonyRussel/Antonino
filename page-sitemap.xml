@@ -2,7 +2,7 @@
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd http://www.google.com/schemas/sitemap-image/1.1 http://www.google.com/schemas/sitemap-image/1.1/sitemap-image.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<url>
 		<loc>/</loc>
-		<lastmod>2026-09-05T11:43:38+00:00</lastmod>
+		<lastmod>2026-09-05T12:52:05+00:00</lastmod>
 		<image:image>
 			<image:loc>/wp-content/uploads/2026/01/Showreel-ezgif.com-optimize-1.gif</image:loc>
 		</image:image>
@@ -26,6 +26,21 @@
 		</image:image>
 		<image:image>
 			<image:loc>/wp-content/uploads/2024/12/pink-city.gif</image:loc>
+		</image:image>
+		<image:image>
+			<image:loc>/wp-content/uploads/2024/12/etere.gif</image:loc>
+		</image:image>
+		<image:image>
+			<image:loc>/wp-content/uploads/2024/12/irregularity.gif</image:loc>
+		</image:image>
+		<image:image>
+			<image:loc>/wp-content/uploads/2026/01/motionterra.gif</image:loc>
+		</image:image>
+		<image:image>
+			<image:loc>/wp-content/uploads/2025/10/AntoninoRussello_BeeAnimation-ezgif.com-optimize.gif</image:loc>
+		</image:image>
+		<image:image>
+			<image:loc>/wp-content/uploads/2025/01/Comp_2.gif</image:loc>
 		</image:image>
 	</url>
 	<url>
@@ -41,7 +56,7 @@
 	</url>
 	<url>
 		<loc>/works/</loc>
-		<lastmod>2026-09-05T12:04:50+00:00</lastmod>
+		<lastmod>2026-09-05T12:52:27+00:00</lastmod>
 		<image:image>
 			<image:loc>/wp-content/uploads/2026/01/Showreel-ezgif.com-optimize-1.gif</image:loc>
 		</image:image>
@@ -65,6 +80,21 @@
 		</image:image>
 		<image:image>
 			<image:loc>/wp-content/uploads/2024/12/pink-city.gif</image:loc>
+		</image:image>
+		<image:image>
+			<image:loc>/wp-content/uploads/2024/12/etere.gif</image:loc>
+		</image:image>
+		<image:image>
+			<image:loc>/wp-content/uploads/2024/12/irregularity.gif</image:loc>
+		</image:image>
+		<image:image>
+			<image:loc>/wp-content/uploads/2026/01/motionterra.gif</image:loc>
+		</image:image>
+		<image:image>
+			<image:loc>/wp-content/uploads/2025/10/AntoninoRussello_BeeAnimation-ezgif.com-optimize.gif</image:loc>
+		</image:image>
+		<image:image>
+			<image:loc>/wp-content/uploads/2025/01/Comp_2.gif</image:loc>
 		</image:image>
 	</url>
 </urlset>
